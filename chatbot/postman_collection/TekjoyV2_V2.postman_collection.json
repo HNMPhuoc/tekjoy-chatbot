@@ -1,0 +1,3361 @@
+{
+	"info": {
+		"_postman_id": "8bace5fc-4213-4add-991f-3aca6a3aee2f",
+		"name": "TekjoyV2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44296290"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYyODY4NzF9.0lsW1bC7bnc8lNg7e42rFBtFy4jUFpSeJ1TfPt7pdXg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"test2\",\r\n  \"email\": \"test2@gmail.com\",\r\n  \"full_name\": \"Test test2\",\r\n  \"role\": \"user\",\r\n  \"password\": \"test2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/users/register",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2:01pm 8/26/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"testuser\",\r\n  \"email\": \"admin@gmail.com\",\r\n  \"full_name\": \"Test Admin\",\r\n  \"role\": \"admin\",\r\n  \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:01:22 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "211"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"username\": \"testuser\",\n    \"email\": \"admin@gmail.com\",\n    \"full_name\": \"Test Admin\",\n    \"role\": \"admin\",\n    \"is_active\": true,\n    \"created_at\": \"2025-08-26T00:01:23.906662Z\",\n    \"last_login\": null\n}"
+				},
+				{
+					"name": "2:12pm 8/26/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"test1\",\r\n  \"email\": \"test1@gmail.com\",\r\n  \"full_name\": \"Test test1\",\r\n  \"role\": \"user\",\r\n  \"password\": \"test1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:12:00 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "207"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"00d14005-00d6-4b41-9648-16978e10b822\",\n    \"username\": \"test1\",\n    \"email\": \"test1@gmail.com\",\n    \"full_name\": \"Test test1\",\n    \"role\": \"user\",\n    \"is_active\": true,\n    \"created_at\": \"2025-08-26T00:12:01.209843Z\",\n    \"last_login\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "admin@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/users/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2:06pm 8/26/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:05:54 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "178"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTM3NTR9.JIk0pyV2EbD8b3bCS_zWOwK6hs1AHwb33mn38fIzpYo\",\n    \"token_type\": \"bearer\"\n}"
+				},
+				{
+					"name": "user - 2:19pm 8/26/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "test1@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test1edit",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:13:34 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "178"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTQyMTR9.53MDH0xWl16s_AX_2HUzlqJBEEVt1fgJO3xHPVdH75Q\",\n    \"token_type\": \"bearer\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Current User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTM3NTR9.JIk0pyV2EbD8b3bCS_zWOwK6hs1AHwb33mn38fIzpYo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "admin@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/users/me",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2:07pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/me",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:07:00 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "211"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"username\": \"testuser\",\n    \"email\": \"admin@gmail.com\",\n    \"full_name\": \"Test Admin\",\n    \"role\": \"admin\",\n    \"is_active\": true,\n    \"created_at\": \"2025-08-26T00:01:23.906662Z\",\n    \"last_login\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTM3NTR9.JIk0pyV2EbD8b3bCS_zWOwK6hs1AHwb33mn38fIzpYo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"full_name\": \"new pass: test1edit\",\r\n  \"password\": \"test1edit\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/users/00d14005-00d6-4b41-9648-16978e10b822",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						"00d14005-00d6-4b41-9648-16978e10b822"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2:09pm 8/26/2025",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"full_name\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:09:12 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "206"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"username\": \"testuser\",\n    \"email\": \"admin@gmail.com\",\n    \"full_name\": \"admin\",\n    \"role\": \"admin\",\n    \"is_active\": true,\n    \"created_at\": \"2025-08-26T00:01:23.906662Z\",\n    \"last_login\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTM3NTR9.JIk0pyV2EbD8b3bCS_zWOwK6hs1AHwb33mn38fIzpYo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Marketing\",\r\n  \"description\": \"Phòng ban truyền thông\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/groups",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groups"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2:15pm 8/26/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Human Resoure\",\r\n  \"description\": \"Phòng ban nhân sự\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/groups",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"groups"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:15:38 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "106"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Human Resoure\",\n    \"description\": \"Phòng ban nhân sự\",\n    \"id\": \"240899c7-34f0-4de3-b1fa-f8fad249bfb1\"\n}"
+				}
+			]
+		},
+		{
+			"name": "All Group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYyODY4NzF9.0lsW1bC7bnc8lNg7e42rFBtFy4jUFpSeJ1TfPt7pdXg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/groups/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groups",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2:18pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/groups/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"groups",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:18:00 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "325"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date",
+							"domain": "",
+							"path": ""
+						}
+					],
+					"body": "[\n    {\n        \"name\": \"IT\",\n        \"description\": \"Phòng ban công nghệ thông tin\",\n        \"id\": \"cc25c20c-8659-4dfb-894d-80c87b6934ef\"\n    },\n    {\n        \"name\": \"Human Resoure\",\n        \"description\": \"Phòng ban nhân sự\",\n        \"id\": \"240899c7-34f0-4de3-b1fa-f8fad249bfb1\"\n    },\n    {\n        \"name\": \"Marketing\",\n        \"description\": \"Phòng ban truyền thông\",\n        \"id\": \"bc501930-8885-4128-b17d-18086fd9dd7b\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Edit Group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTM3NTR9.JIk0pyV2EbD8b3bCS_zWOwK6hs1AHwb33mn38fIzpYo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"Phòng ban nhân sự đã được chỉnh sửa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/groups/240899c7-34f0-4de3-b1fa-f8fad249bfb1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groups",
+						"240899c7-34f0-4de3-b1fa-f8fad249bfb1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Group User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYyODY4NzF9.0lsW1bC7bnc8lNg7e42rFBtFy4jUFpSeJ1TfPt7pdXg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user_ids\": [\r\n    \"0a36aebe-8c6a-4ed4-9680-3428b02bff5b\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/groups/cc25c20c-8659-4dfb-894d-80c87b6934ef/add_users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groups",
+						"cc25c20c-8659-4dfb-894d-80c87b6934ef",
+						"add_users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2:37pm 8/26/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_ids\": [\r\n    \"00d14005-00d6-4b41-9648-16978e10b822\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/groups/240899c7-34f0-4de3-b1fa-f8fad249bfb1/add_users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"groups",
+								"240899c7-34f0-4de3-b1fa-f8fad249bfb1",
+								"add_users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:37:25 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "48"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Users added to group successfully.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTU2MzZ9.jDvJ_qOUqfsfC8d1BLBQNqQ6UY0haUIoxUwsxKqF_P0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user_ids\": [\r\n    \"00d14005-00d6-4b41-9648-16978e10b822\"\r\n  ]\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "2:44pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_ids\": [\r\n    \"00d14005-00d6-4b41-9648-16978e10b822\"\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 07:44:35 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "425"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n        \"username\": \"testuser\",\n        \"email\": \"admin@gmail.com\",\n        \"full_name\": \"admin\",\n        \"role\": \"admin\",\n        \"is_active\": true,\n        \"created_at\": \"2025-08-26T00:01:23.906662Z\",\n        \"last_login\": null\n    },\n    {\n        \"id\": \"00d14005-00d6-4b41-9648-16978e10b822\",\n        \"username\": \"test1\",\n        \"email\": \"test1@gmail.com\",\n        \"full_name\": \"new pass: test1edit\",\n        \"role\": \"user\",\n        \"is_active\": true,\n        \"created_at\": \"2025-08-26T00:12:01.209843Z\",\n        \"last_login\": null\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Create Access Levels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTgzNzF9.baJDQB8XMRjDKkZqOVdiGRBulkLKtqgBGHIN8kVYLzs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "3:23pm 8/26/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 1\",\r\n  \"description\": \"Cấp độ truy cập thấp nhất, dành cho các tài liệu công khai.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 08:23:40 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "275"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Cap 1\",\n    \"description\": \"Cấp độ truy cập thấp nhất, dành cho các tài liệu công khai.\",\n    \"is_default\": false,\n    \"id\": \"51455627-4b8e-45ae-93cf-a819864669d4\",\n    \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"created_at\": \"2025-08-26T08:23:41.237404Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List Access Level",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTgzNzF9.baJDQB8XMRjDKkZqOVdiGRBulkLKtqgBGHIN8kVYLzs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "3:26pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 08:26:34 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "507"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Cap 1\",\n        \"description\": \"Cấp độ truy cập thấp nhất, dành cho các tài liệu công khai.\",\n        \"is_default\": false,\n        \"id\": \"51455627-4b8e-45ae-93cf-a819864669d4\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n        \"created_at\": \"2025-08-26T08:23:41.237404Z\"\n    },\n    {\n        \"name\": \"Cap 2\",\n        \"description\": \"Cấp độ truy cập cấp 2\",\n        \"is_default\": false,\n        \"id\": \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n        \"created_at\": \"2025-08-26T08:24:30.034724Z\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Edit Access Level",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTgzNzF9.baJDQB8XMRjDKkZqOVdiGRBulkLKtqgBGHIN8kVYLzs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2 đã được chỉnh sửa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels/b560ca54-f2f8-43ca-9d69-d8dab1244b75",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels",
+						"b560ca54-f2f8-43ca-9d69-d8dab1244b75"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "3:32pm 8/26/2025",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2 đã được chỉnh sửa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels/b560ca54-f2f8-43ca-9d69-d8dab1244b75",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels",
+								"b560ca54-f2f8-43ca-9d69-d8dab1244b75"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 08:28:05 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "257"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Cap 2\",\n    \"description\": \"Cấp độ truy cập cấp 2 đã được chỉnh sửa\",\n    \"is_default\": false,\n    \"id\": \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\n    \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"created_at\": \"2025-08-26T08:24:30.034724Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete Access Level",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTgzNzF9.baJDQB8XMRjDKkZqOVdiGRBulkLKtqgBGHIN8kVYLzs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels/7a7a23e5-42f0-4968-9fd2-b354fd60b81e",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels",
+						"7a7a23e5-42f0-4968-9fd2-b354fd60b81e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Group Access Levels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYxOTgzNzF9.baJDQB8XMRjDKkZqOVdiGRBulkLKtqgBGHIN8kVYLzs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"access_level_ids\": [\r\n    \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\r\n    \"51455627-4b8e-45ae-93cf-a819864669d4\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/groups/240899c7-34f0-4de3-b1fa-f8fad249bfb1/assign_access_levels",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groups",
+						"240899c7-34f0-4de3-b1fa-f8fad249bfb1",
+						"assign_access_levels"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "3:35pm 8/26/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"access_level_ids\": [\r\n    \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\r\n    \"51455627-4b8e-45ae-93cf-a819864669d4\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/groups/240899c7-34f0-4de3-b1fa-f8fad249bfb1/assign_access_levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"groups",
+								"240899c7-34f0-4de3-b1fa-f8fad249bfb1",
+								"assign_access_levels"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 08:35:33 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "50"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Access levels assigned successfully.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Access lvl List Detail",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTY0NTgyNTB9.suhZFwNpR9ADO5GikragUWDKtdjL2pchEJ6ZcbMqGKY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels/hello",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels",
+						"hello"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:00pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels/hello",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels",
+								"hello"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 09:00:18 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "653"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"51455627-4b8e-45ae-93cf-a819864669d4\",\n        \"name\": \"Cap 1\",\n        \"description\": \"Cấp độ truy cập thấp nhất, dành cho các tài liệu công khai.\",\n        \"groups\": [\n            {\n                \"id\": \"240899c7-34f0-4de3-b1fa-f8fad249bfb1\",\n                \"name\": \"Human Resoure\",\n                \"users\": [\n                    {\n                        \"id\": \"00d14005-00d6-4b41-9648-16978e10b822\",\n                        \"username\": \"test1\",\n                        \"email\": \"test1@gmail.com\"\n                    }\n                ]\n            }\n        ]\n    },\n    {\n        \"id\": \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\n        \"name\": \"Cap 2\",\n        \"description\": \"Cấp độ truy cập cấp 2 đã được chỉnh sửa\",\n        \"groups\": [\n            {\n                \"id\": \"240899c7-34f0-4de3-b1fa-f8fad249bfb1\",\n                \"name\": \"Human Resoure\",\n                \"users\": [\n                    {\n                        \"id\": \"00d14005-00d6-4b41-9648-16978e10b822\",\n                        \"username\": \"test1\",\n                        \"email\": \"test1@gmail.com\"\n                    }\n                ]\n            }\n        ]\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Acceess Lvl List Detail by ASS ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYyMDAxOTF9.AM8tPnh_VOFhbu352UsqMGTNvZOLBt52sqpgICfRZ88",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels/b560ca54-f2f8-43ca-9d69-d8dab1244b75/details",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels",
+						"b560ca54-f2f8-43ca-9d69-d8dab1244b75",
+						"details"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:01pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels/b560ca54-f2f8-43ca-9d69-d8dab1244b75/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels",
+								"b560ca54-f2f8-43ca-9d69-d8dab1244b75",
+								"details"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 09:01:09 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "316"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\n    \"name\": \"Cap 2\",\n    \"description\": \"Cấp độ truy cập cấp 2 đã được chỉnh sửa\",\n    \"groups\": [\n        {\n            \"id\": \"240899c7-34f0-4de3-b1fa-f8fad249bfb1\",\n            \"name\": \"Human Resoure\",\n            \"users\": [\n                {\n                    \"id\": \"00d14005-00d6-4b41-9648-16978e10b822\",\n                    \"username\": \"test1\",\n                    \"email\": \"test1@gmail.com\"\n                }\n            ]\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Group View Access Level",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYyMDAxOTF9.AM8tPnh_VOFhbu352UsqMGTNvZOLBt52sqpgICfRZ88",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/groups/240899c7-34f0-4de3-b1fa-f8fad249bfb1/access_levels",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groups",
+						"240899c7-34f0-4de3-b1fa-f8fad249bfb1",
+						"access_levels"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:05pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/groups/240899c7-34f0-4de3-b1fa-f8fad249bfb1/access_levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"groups",
+								"240899c7-34f0-4de3-b1fa-f8fad249bfb1",
+								"access_levels"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 09:05:06 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "291"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"51455627-4b8e-45ae-93cf-a819864669d4\",\n        \"name\": \"Cap 1\",\n        \"description\": \"Cấp độ truy cập thấp nhất, dành cho các tài liệu công khai.\"\n    },\n    {\n        \"id\": \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\n        \"name\": \"Cap 2\",\n        \"description\": \"Cấp độ truy cập cấp 2 đã được chỉnh sửa\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "My Access Level",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE3NTYyMDEwMTV9.nmiYd4nIUnxlRR7PR4LKl8GJQa38tq1x5s9jkPu502M",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/users/me/access_levels",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						"me",
+						"access_levels"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:23pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/me/access_levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"me",
+								"access_levels"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 09:23:02 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "291"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"51455627-4b8e-45ae-93cf-a819864669d4\",\n        \"name\": \"Cap 1\",\n        \"description\": \"Cấp độ truy cập thấp nhất, dành cho các tài liệu công khai.\"\n    },\n    {\n        \"id\": \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\n        \"name\": \"Cap 2\",\n        \"description\": \"Cấp độ truy cập cấp 2 đã được chỉnh sửa\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "List Group In current user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0MUBnbWFpbC5jb20iLCJleHAiOjE3NTYyMDEwMTV9.nmiYd4nIUnxlRR7PR4LKl8GJQa38tq1x5s9jkPu502M",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/users/me/groups",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						"me",
+						"groups"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:16pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/me/groups",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"me",
+								"groups"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 09:14:12 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "136"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Human Resoure\",\n        \"description\": \"Phòng ban nhân sự đã được chỉnh sửa\",\n        \"id\": \"240899c7-34f0-4de3-b1fa-f8fad249bfb1\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "All List User & Group",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYyMDE2MzB9.rGtE0euIj8ylqoGYByl0gjJmGu4po5QB4VzMyuC0J8s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/users/with_groups",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						"with_groups"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:17pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/users/with_groups",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"users",
+								"with_groups"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 09:17:21 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "395"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"00d14005-00d6-4b41-9648-16978e10b822\",\n        \"username\": \"test1\",\n        \"email\": \"test1@gmail.com\",\n        \"full_name\": \"new pass: test1edit\",\n        \"role\": \"user\",\n        \"is_active\": true,\n        \"groups\": [\n            {\n                \"id\": \"240899c7-34f0-4de3-b1fa-f8fad249bfb1\",\n                \"name\": \"Human Resoure\"\n            }\n        ]\n    },\n    {\n        \"id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n        \"username\": \"testuser\",\n        \"email\": \"admin@gmail.com\",\n        \"full_name\": \"admin\",\n        \"role\": \"admin\",\n        \"is_active\": true,\n        \"groups\": []\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "List user in group",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYyMDE2MzB9.rGtE0euIj8ylqoGYByl0gjJmGu4po5QB4VzMyuC0J8s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/groups/cc25c20c-8659-4dfb-894d-80c87b6934ef/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groups",
+						"cc25c20c-8659-4dfb-894d-80c87b6934ef",
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:37pm 8/26/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/groups/cc25c20c-8659-4dfb-894d-80c87b6934ef/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"groups",
+								"cc25c20c-8659-4dfb-894d-80c87b6934ef",
+								"users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Tue, 26 Aug 2025 09:37:10 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "209"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"0a36aebe-8c6a-4ed4-9680-3428b02bff5b\",\n        \"username\": \"test2\",\n        \"email\": \"test2@gmail.com\",\n        \"full_name\": \"Test test2\",\n        \"role\": \"user\",\n        \"is_active\": true,\n        \"created_at\": \"2025-08-26T02:29:20.522108Z\",\n        \"last_login\": null\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Delete user out group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYyMDE2MzB9.rGtE0euIj8ylqoGYByl0gjJmGu4po5QB4VzMyuC0J8s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Cap 2\",\r\n  \"description\": \"Cấp độ truy cập cấp 2\"\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/groups/cc25c20c-8659-4dfb-894d-80c87b6934ef/users/0a36aebe-8c6a-4ed4-9680-3428b02bff5b",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groups",
+						"cc25c20c-8659-4dfb-894d-80c87b6934ef",
+						"users",
+						"0a36aebe-8c6a-4ed4-9680-3428b02bff5b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Folders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"thư mục 1.2\",\r\n  \"parent_id\": \"4f317df8-c2ac-428c-9ae5-af913e30a095\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/folders",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"folders"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:43pm 8/27/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Tên Thư Mục Mới\",\r\n  \"parent_id\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/folders",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"folders"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 09:43:05 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "196"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Tên Thư Mục Mới\",\n    \"parent_id\": null,\n    \"id\": \"e107fcfb-4fbe-4e6b-b2c1-064d62e21b09\",\n    \"created_at\": \"2025-08-27T09:43:05.536989Z\",\n    \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit Folde",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Thư mục 2.1. Đã Sửa\",\r\n  \"parent_id\": \"0bbeb0df-ee64-4c52-bd91-6fcee6ed905d\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/folders/1b1cd297-ef15-4d05-b2ce-b649e29d979d",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"folders",
+						"1b1cd297-ef15-4d05-b2ce-b649e29d979d"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:48pm 8/27/2025",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Thư mục 2.1. Đã Sửa\",\r\n  \"parent_id\": \"0bbeb0df-ee64-4c52-bd91-6fcee6ed905d\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/folders/1b1cd297-ef15-4d05-b2ce-b649e29d979d",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"folders",
+								"1b1cd297-ef15-4d05-b2ce-b649e29d979d"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 09:47:34 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "235"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"Thư mục 2.1. Đã Sửa\",\n    \"parent_id\": \"0bbeb0df-ee64-4c52-bd91-6fcee6ed905d\",\n    \"id\": \"1b1cd297-ef15-4d05-b2ce-b649e29d979d\",\n    \"created_at\": \"2025-08-27T09:45:12.349774Z\",\n    \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List thư mục",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/folders/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"folders",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:49pm 8/27/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/folders/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"folders",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 09:48:32 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "2084"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Tên Thư Mục Mới\",\n        \"parent_id\": null,\n        \"id\": \"e107fcfb-4fbe-4e6b-b2c1-064d62e21b09\",\n        \"created_at\": \"2025-08-27T09:43:05.536989Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"thư mục 1\",\n        \"parent_id\": null,\n        \"id\": \"4f317df8-c2ac-428c-9ae5-af913e30a095\",\n        \"created_at\": \"2025-08-27T09:43:51.112997Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"thư mục 1.1\",\n        \"parent_id\": \"4f317df8-c2ac-428c-9ae5-af913e30a095\",\n        \"id\": \"546937aa-525a-490a-9c16-4093fc527517\",\n        \"created_at\": \"2025-08-27T09:44:11.761364Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"thư mục 1.1.1\",\n        \"parent_id\": \"546937aa-525a-490a-9c16-4093fc527517\",\n        \"id\": \"6cc6836e-c8b3-4286-afe3-1545ca9e238b\",\n        \"created_at\": \"2025-08-27T09:44:29.059352Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"thư mục 2\",\n        \"parent_id\": null,\n        \"id\": \"b9d51fcf-6091-499a-831e-9aaad1d03b5d\",\n        \"created_at\": \"2025-08-27T09:44:42.910513Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"thư mục 2.1\",\n        \"parent_id\": \"b9d51fcf-6091-499a-831e-9aaad1d03b5d\",\n        \"id\": \"23dc447d-4d93-450f-b7e2-170eb648a573\",\n        \"created_at\": \"2025-08-27T09:45:01.610643Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"thư mục 3\",\n        \"parent_id\": null,\n        \"id\": \"0bbeb0df-ee64-4c52-bd91-6fcee6ed905d\",\n        \"created_at\": \"2025-08-27T09:45:34.823315Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"thư mục 4\",\n        \"parent_id\": null,\n        \"id\": \"b614d2a7-431c-44ed-b1c5-4bb18cf4cd3c\",\n        \"created_at\": \"2025-08-27T09:45:44.379160Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"thư mục 4.1\",\n        \"parent_id\": \"b614d2a7-431c-44ed-b1c5-4bb18cf4cd3c\",\n        \"id\": \"ac67cfaa-cfb1-456b-a14c-406ea94957cc\",\n        \"created_at\": \"2025-08-27T09:45:57.586978Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    },\n    {\n        \"name\": \"Thư mục 2.1. Đã Sửa\",\n        \"parent_id\": \"0bbeb0df-ee64-4c52-bd91-6fcee6ed905d\",\n        \"id\": \"1b1cd297-ef15-4d05-b2ce-b649e29d979d\",\n        \"created_at\": \"2025-08-27T09:45:12.349774Z\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "List file  & lvl 1 chilrent",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/folders/content?folder_id=d1e6a296-b03a-4aaf-a0fe-7de7aacaf6f6",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"folders",
+						"content"
+					],
+					"query": [
+						{
+							"key": "folder_id",
+							"value": "d1e6a296-b03a-4aaf-a0fe-7de7aacaf6f6"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:52pm 8/27/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/folders/content?folder_id=4f317df8-c2ac-428c-9ae5-af913e30a095",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"folders",
+								"content"
+							],
+							"query": [
+								{
+									"key": "folder_id",
+									"value": "4f317df8-c2ac-428c-9ae5-af913e30a095"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 09:51:14 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "248"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"folders\": [\n        {\n            \"name\": \"thư mục 1.1\",\n            \"parent_id\": \"4f317df8-c2ac-428c-9ae5-af913e30a095\",\n            \"id\": \"546937aa-525a-490a-9c16-4093fc527517\",\n            \"created_at\": \"2025-08-27T09:44:11.761364Z\",\n            \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\"\n        }\n    ],\n    \"files\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Folder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"original_file_name\": \"Tài liệu trong 1.2.txt\",\r\n  \"file_extension\": \".txt\",\r\n  \"mime_type\": \"text/plain\",\r\n  \"file_size_bytes\": 1024,\r\n  \"storage_path\": \"/path/to/storage\",\r\n  \"uploaded_by_user_id\": \"uuid-của-người-dùng\",\r\n  \"folder_id\": \"d1e6a296-b03a-4aaf-a0fe-7de7aacaf6f6\",\r\n  \"folder_path\": \"/path/to/folder\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/files",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"files"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:54pm 8/27/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"original_file_name\": \"Tên Tệp Tin.txt\",\r\n  \"file_extension\": \".txt\",\r\n  \"mime_type\": \"text/plain\",\r\n  \"file_size_bytes\": 1024,\r\n  \"storage_path\": \"/path/to/storage\",\r\n  \"uploaded_by_user_id\": \"uuid-của-người-dùng\",\r\n  \"folder_id\": \"4f317df8-c2ac-428c-9ae5-af913e30a095\",\r\n  \"folder_path\": \"/path/to/folder\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/files",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"files"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 09:54:04 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "862"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"original_file_name\": \"Tên Tệp Tin.txt\",\n    \"folder_id\": \"4f317df8-c2ac-428c-9ae5-af913e30a095\",\n    \"id\": \"e7bc16a6-1029-4f30-87cb-c0930a69b3e8\",\n    \"file_extension\": \".txt\",\n    \"mime_type\": \"text/plain\",\n    \"file_size_bytes\": 1024,\n    \"storage_path\": \"/path/to/storage\",\n    \"thumbnail_path\": null,\n    \"document_type\": null,\n    \"upload_timestamp\": \"2025-08-27T09:54:04.975422Z\",\n    \"last_modified_timestamp\": \"2025-08-27T09:54:04.975422Z\",\n    \"uploaded_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"processing_status\": \"pending\",\n    \"error_message\": null,\n    \"project_code\": null,\n    \"project_name\": null,\n    \"document_date\": null,\n    \"vendor_name\": null,\n    \"contract_number\": null,\n    \"total_value\": null,\n    \"currency\": null,\n    \"warranty_period_months\": null,\n    \"is_template\": false,\n    \"keywords\": null,\n    \"folder_path\": \"/path/to/folder\",\n    \"extracted_text\": null,\n    \"ai_summary\": null,\n    \"ai_extracted_data\": null,\n    \"download_link\": null,\n    \"char_count\": null,\n    \"word_count\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "List File",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/files",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"files"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:55pm 8/27/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/files",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"files"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 09:55:02 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "864"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"original_file_name\": \"Tên Tệp Tin.txt\",\n        \"folder_id\": \"4f317df8-c2ac-428c-9ae5-af913e30a095\",\n        \"id\": \"e7bc16a6-1029-4f30-87cb-c0930a69b3e8\",\n        \"file_extension\": \".txt\",\n        \"mime_type\": \"text/plain\",\n        \"file_size_bytes\": 1024,\n        \"storage_path\": \"/path/to/storage\",\n        \"thumbnail_path\": null,\n        \"document_type\": null,\n        \"upload_timestamp\": \"2025-08-27T09:54:04.975422Z\",\n        \"last_modified_timestamp\": \"2025-08-27T09:54:04.975422Z\",\n        \"uploaded_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n        \"processing_status\": \"pending\",\n        \"error_message\": null,\n        \"project_code\": null,\n        \"project_name\": null,\n        \"document_date\": null,\n        \"vendor_name\": null,\n        \"contract_number\": null,\n        \"total_value\": null,\n        \"currency\": null,\n        \"warranty_period_months\": null,\n        \"is_template\": false,\n        \"keywords\": null,\n        \"folder_path\": \"/path/to/folder\",\n        \"extracted_text\": null,\n        \"ai_summary\": null,\n        \"ai_extracted_data\": null,\n        \"download_link\": null,\n        \"char_count\": null,\n        \"word_count\": null\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Delete Folder & it Chilrend",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/folders/546937aa-525a-490a-9c16-4093fc527517",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"folders",
+						"546937aa-525a-490a-9c16-4093fc527517"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:58pm 8/27/2025",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/folders/546937aa-525a-490a-9c16-4093fc527517",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"folders",
+								"546937aa-525a-490a-9c16-4093fc527517"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 09:57:08 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Get file by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/files/892c6f06-6a39-47e9-82eb-080a01e3de67",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"files",
+						"892c6f06-6a39-47e9-82eb-080a01e3de67"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "5:07pm 8/27/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/files/892c6f06-6a39-47e9-82eb-080a01e3de67",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"files",
+								"892c6f06-6a39-47e9-82eb-080a01e3de67"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 10:06:48 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "869"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"original_file_name\": \"Tài liệu trong 1.2.txt\",\n    \"folder_id\": \"d1e6a296-b03a-4aaf-a0fe-7de7aacaf6f6\",\n    \"id\": \"892c6f06-6a39-47e9-82eb-080a01e3de67\",\n    \"file_extension\": \".txt\",\n    \"mime_type\": \"text/plain\",\n    \"file_size_bytes\": 1024,\n    \"storage_path\": \"/path/to/storage\",\n    \"thumbnail_path\": null,\n    \"document_type\": null,\n    \"upload_timestamp\": \"2025-08-27T10:04:59.393265Z\",\n    \"last_modified_timestamp\": \"2025-08-27T10:04:59.393265Z\",\n    \"uploaded_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"processing_status\": \"pending\",\n    \"error_message\": null,\n    \"project_code\": null,\n    \"project_name\": null,\n    \"document_date\": null,\n    \"vendor_name\": null,\n    \"contract_number\": null,\n    \"total_value\": null,\n    \"currency\": null,\n    \"warranty_period_months\": null,\n    \"is_template\": false,\n    \"keywords\": null,\n    \"folder_path\": \"/path/to/folder\",\n    \"extracted_text\": null,\n    \"ai_summary\": null,\n    \"ai_extracted_data\": null,\n    \"download_link\": null,\n    \"char_count\": null,\n    \"word_count\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit file by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"original_file_name\": \"Tài liệu trong 4-edited sau đó đổi sang folder mới.txt\",\r\n    \"folder_id\": \"d1e6a296-b03a-4aaf-a0fe-7de7aacaf6f6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/files/28c39e49-2603-4b56-bf49-7a1a63982908",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"files",
+						"28c39e49-2603-4b56-bf49-7a1a63982908"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "5:08pm 8/27/2025",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"original_file_name\": \"Tài liệu trong 4-edited.txt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/files/28c39e49-2603-4b56-bf49-7a1a63982908",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"files",
+								"28c39e49-2603-4b56-bf49-7a1a63982908"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 10:08:31 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "874"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"original_file_name\": \"Tài liệu trong 4-edited.txt\",\n    \"folder_id\": \"b614d2a7-431c-44ed-b1c5-4bb18cf4cd3c\",\n    \"id\": \"28c39e49-2603-4b56-bf49-7a1a63982908\",\n    \"file_extension\": \".txt\",\n    \"mime_type\": \"text/plain\",\n    \"file_size_bytes\": 1024,\n    \"storage_path\": \"/path/to/storage\",\n    \"thumbnail_path\": null,\n    \"document_type\": null,\n    \"upload_timestamp\": \"2025-08-27T10:03:52.790827Z\",\n    \"last_modified_timestamp\": \"2025-08-27T10:08:31.697659Z\",\n    \"uploaded_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"processing_status\": \"pending\",\n    \"error_message\": null,\n    \"project_code\": null,\n    \"project_name\": null,\n    \"document_date\": null,\n    \"vendor_name\": null,\n    \"contract_number\": null,\n    \"total_value\": null,\n    \"currency\": null,\n    \"warranty_period_months\": null,\n    \"is_template\": false,\n    \"keywords\": null,\n    \"folder_path\": \"/path/to/folder\",\n    \"extracted_text\": null,\n    \"ai_summary\": null,\n    \"ai_extracted_data\": null,\n    \"download_link\": null,\n    \"char_count\": null,\n    \"word_count\": null\n}"
+				},
+				{
+					"name": "5:09pm 8/27/2025",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"original_file_name\": \"Tài liệu trong 4-edited sau đó đổi sang folder mới.txt\",\r\n    \"folder_id\": \"d1e6a296-b03a-4aaf-a0fe-7de7aacaf6f6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/file/files/28c39e49-2603-4b56-bf49-7a1a63982908",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"file",
+								"files",
+								"28c39e49-2603-4b56-bf49-7a1a63982908"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 27 Aug 2025 10:09:34 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "908"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"original_file_name\": \"Tài liệu trong 4-edited sau đó đổi sang folder mới.txt\",\n    \"folder_id\": \"d1e6a296-b03a-4aaf-a0fe-7de7aacaf6f6\",\n    \"id\": \"28c39e49-2603-4b56-bf49-7a1a63982908\",\n    \"file_extension\": \".txt\",\n    \"mime_type\": \"text/plain\",\n    \"file_size_bytes\": 1024,\n    \"storage_path\": \"/path/to/storage\",\n    \"thumbnail_path\": null,\n    \"document_type\": null,\n    \"upload_timestamp\": \"2025-08-27T10:03:52.790827Z\",\n    \"last_modified_timestamp\": \"2025-08-27T10:09:34.465014Z\",\n    \"uploaded_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n    \"processing_status\": \"pending\",\n    \"error_message\": null,\n    \"project_code\": null,\n    \"project_name\": null,\n    \"document_date\": null,\n    \"vendor_name\": null,\n    \"contract_number\": null,\n    \"total_value\": null,\n    \"currency\": null,\n    \"warranty_period_months\": null,\n    \"is_template\": false,\n    \"keywords\": null,\n    \"folder_path\": \"/path/to/folder\",\n    \"extracted_text\": null,\n    \"ai_summary\": null,\n    \"ai_extracted_data\": null,\n    \"download_link\": null,\n    \"char_count\": null,\n    \"word_count\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "delete file",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTYzNzMyNTN9.IUKqujR_BxJqSSJd3Ll9iFwyJH_m4MpY_GdeP6_kT74",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/file/files/28c39e49-2603-4b56-bf49-7a1a63982908",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"file",
+						"files",
+						"28c39e49-2603-4b56-bf49-7a1a63982908"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add File Access Levels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTY0NTgyNTB9.suhZFwNpR9ADO5GikragUWDKtdjL2pchEJ6ZcbMqGKY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"access_level_ids\": [\r\n        \"51455627-4b8e-45ae-93cf-a819864669d4\",\r\n        \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels/files/e7bc16a6-1029-4f30-87cb-c0930a69b3e8/access-levels",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels",
+						"files",
+						"e7bc16a6-1029-4f30-87cb-c0930a69b3e8",
+						"access-levels"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:18pm 8/28/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels/files/e7bc16a6-1029-4f30-87cb-c0930a69b3e8/access-levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels",
+								"files",
+								"e7bc16a6-1029-4f30-87cb-c0930a69b3e8",
+								"access-levels"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 28 Aug 2025 09:18:47 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "58"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Access levels assigned to file successfully.\"\n}"
+				},
+				{
+					"name": "4:18pm 8/28/2025",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"access_level_ids\": [\r\n        \"51455627-4b8e-45ae-93cf-a819864669d4\",\r\n        \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels/files/e7bc16a6-1029-4f30-87cb-c0930a69b3e8/access-levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels",
+								"files",
+								"e7bc16a6-1029-4f30-87cb-c0930a69b3e8",
+								"access-levels"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 28 Aug 2025 09:21:16 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "58"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Access levels assigned to file successfully.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get File Access Level",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTY0NTgyNTB9.suhZFwNpR9ADO5GikragUWDKtdjL2pchEJ6ZcbMqGKY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels/files/e7bc16a6-1029-4f30-87cb-c0930a69b3e8/access-levels",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels",
+						"files",
+						"e7bc16a6-1029-4f30-87cb-c0930a69b3e8",
+						"access-levels"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:26pm 8/28/2025",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels/files/e7bc16a6-1029-4f30-87cb-c0930a69b3e8/access-levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels",
+								"files",
+								"e7bc16a6-1029-4f30-87cb-c0930a69b3e8",
+								"access-levels"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 28 Aug 2025 09:26:08 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "535"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Cap 1\",\n        \"description\": \"Cấp độ truy cập thấp nhất, dành cho các tài liệu công khai.\",\n        \"is_default\": false,\n        \"id\": \"51455627-4b8e-45ae-93cf-a819864669d4\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n        \"created_at\": \"2025-08-26T08:23:41.237404Z\"\n    },\n    {\n        \"name\": \"Cap 2\",\n        \"description\": \"Cấp độ truy cập cấp 2 đã được chỉnh sửa\",\n        \"is_default\": false,\n        \"id\": \"b560ca54-f2f8-43ca-9d69-d8dab1244b75\",\n        \"created_by_user_id\": \"4aa03ac3-8e9b-4bcf-8f9a-0c46f9a20c4f\",\n        \"created_at\": \"2025-08-26T08:24:30.034724Z\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Remove File Access level",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJleHAiOjE3NTY0NTgyNTB9.suhZFwNpR9ADO5GikragUWDKtdjL2pchEJ6ZcbMqGKY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"access_level_ids\": [\r\n        \"51455627-4b8e-45ae-93cf-a819864669d4\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/access_levels/files/e7bc16a6-1029-4f30-87cb-c0930a69b3e8/access-levels",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"access_levels",
+						"files",
+						"e7bc16a6-1029-4f30-87cb-c0930a69b3e8",
+						"access-levels"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "4:28pm 8/28/2025",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"access_level_ids\": [\r\n        \"51455627-4b8e-45ae-93cf-a819864669d4\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/api/access_levels/files/e7bc16a6-1029-4f30-87cb-c0930a69b3e8/access-levels",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"api",
+								"access_levels",
+								"files",
+								"e7bc16a6-1029-4f30-87cb-c0930a69b3e8",
+								"access-levels"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 28 Aug 2025 09:28:32 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}

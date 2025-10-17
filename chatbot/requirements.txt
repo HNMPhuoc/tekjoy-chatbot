@@ -1,0 +1,70 @@
+fastapi
+uvicorn[standard]
+sqlalchemy[asyncio]
+asyncpg
+pydantic
+pydantic-settings
+python-dotenv
+langchain
+langchain-openai
+
+
+#Core dependencies
+fastapi>=0.115.0
+uvicorn>=0.30.0
+pydantic>=2.8.0
+python-dotenv>=1.0.1
+python-multipart>=0.0.9
+aiofiles>=23.2.1
+requests>=2.31.0
+
+#LangChain
+langchain
+langchain-community
+langchain-huggingface
+langchain-google-genai
+torch
+
+#OCR dependencies
+pytesseract
+opencv-python
+Pillow
+PyMuPDF
+numpy
+pdf2image
+
+#Office file processing
+python-docx
+python-pptx
+docx2txt
+tika
+mammoth
+xlrd
+odfpy
+
+#AI dependencies
+openai
+google-generativeai
+google-ai-generativelanguage
+
+#Data processing
+pandas
+openpyxl
+beautifulsoup4
+gspread
+oauth2client
+
+#Development tools
+pytest
+black
+isort
+flake8
+mypy
+
+psycopg
+psycopg-binary
+psycopg2-binary
+python-jose[cryptography]
+passlib
+bcrypt==3.2.2
+gunicorn

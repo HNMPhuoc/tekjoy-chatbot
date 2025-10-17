@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giao diện Chat với Lịch sử hội thoại V10</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 3px;
+        }
+        /* // thêm note */
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+        .highlighted-file {
+            background-color: #374151;
+            color: #d1d5db;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+            display: inline-block;
+            margin: 0 2px;
+            user-select: none;
+        }
+
+        [contenteditable]:empty:before {
+            content: attr(placeholder);
+            pointer-events: none;
+            display: block;
+            color: #a0aec0;
+        }
+        
+        .toggle-checkbox {
+            appearance: none;
+            width: 40px;
+            height: 20px;
+            background-color: #4a5568;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .toggle-checkbox:checked {
+            background-color: #4f46e5;
+        }
+        .toggle-checkbox::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: white;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+        }
+        .toggle-checkbox:checked::before {
+            transform: translateX(20px);
+        }
+
+        .suggestion-item-selected {
+            background-color: #4f46e5 !important;
+        }
+        
+        .attachments-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            background-color: #2d3748;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            max-width: 12rem;
+        }
+
+        .attachment-item:hover {
+            background-color: #4a5568;
+        }
+
+        .session-item .session-actions {
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .session-item:hover .session-actions {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-gray-100 antialiased">
+
+    <!-- Login View -->
+    <div id="login-view" class="flex items-center justify-center min-h-screen">
+        <div class="w-full max-w-md p-8 space-y-6 bg-gray-800 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-bold text-center text-white">Đăng nhập</h2>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="username" class="text-sm font-medium text-gray-300">Email</label>
+                    <input id="username" name="username" type="email" required
+                        class="w-full px-4 py-2 mt-2 text-gray-100 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="admin@gmail.com" value="admin@gmail.com">
+                </div>
+                <div>
+                    <label for="password" class="text-sm font-medium text-gray-300">Mật khẩu</label>
+                    <input id="password" name="password" type="password" required
+                        class="w-full px-4 py-2 mt-2 text-gray-100 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="********" value="admin">
+                </div>
+                <button type="submit"
+                    class="w-full py-2 px-4 font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                    Đăng nhập
+                </button>
+                <p id="login-error" class="text-sm text-red-400 text-center"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App View -->
+    <div id="app-view" class="hidden h-screen w-screen flex">
+        <!-- Sidebar -->
+        <div class="w-72 bg-gray-800 p-4 flex flex-col">
+            <h1 class="text-2xl font-bold mb-4 text-white">Chatbot</h1>
+            <button id="new-chat-btn"
+                class="w-full flex items-center justify-center gap-2 px-4 py-2 mb-4 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                Chat Mới
+            </button>
+            <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Lịch sử</h2>
+            <div id="session-list" class="flex-grow overflow-y-auto custom-scrollbar pr-1">
+                <!-- Session history will be listed here -->
+            </div>
+            <div class="border-t border-gray-700 pt-4 mt-2">
+                 <div id="user-info" class="text-sm text-gray-400 mb-4">
+                     <p class="font-semibold" id="user-fullname"></p>
+                     <p class="truncate" id="user-email"></p>
+                 </div>
+                <button id="settings-btn"
+                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-left text-gray-300 hover:bg-gray-700 rounded-lg transition-colors">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                    Cài đặt
+                </button>
+                 <button id="logout-btn"
+                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-left text-gray-300 hover:bg-gray-700 rounded-lg transition-colors mt-2">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    Đăng xuất
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <main class="flex-1 flex flex-col bg-gray-900">
+             <div id="chat-header" class="flex items-center justify-between p-4 border-b border-gray-700">
+                <h2 id="session-title" class="text-lg font-semibold text-white"></h2>
+            </div>
+            <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+                 <!-- Messages will be appended here -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-6 bg-gray-900 border-t border-gray-700">
+                <div class="relative max-w-4xl mx-auto">
+                    <div id="suggestion-box"
+                        class="absolute bottom-full left-0 right-0 mb-2 bg-gray-700 border border-gray-600 rounded-lg shadow-xl overflow-hidden z-10 hidden max-h-60 overflow-y-auto custom-scrollbar">
+                    </div>
+                    
+                    <form id="chat-form" class="relative">
+                         <div id="message-input" contenteditable="true"
+                             placeholder="Nhập tin nhắn hoặc từ khóa + dấu cách để tìm file..."
+                             class="w-full bg-gray-800 text-gray-200 rounded-lg pl-4 pr-16 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none min-h-[52px] max-h-48 overflow-y-auto"></div>
+                        <button type="submit"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-indigo-600 rounded-full text-white hover:bg-indigo-700 disabled:bg-gray-500 disabled:cursor-not-allowed transition-colors">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 w-full max-w-3xl rounded-lg shadow-xl transform transition-all flex flex-col max-h-[90vh]">
+             <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                <h2 class="text-2xl font-bold">Cài đặt Chat</h2>
+                <button id="close-settings-btn" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto custom-scrollbar">
+                 <form id="settings-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div>
+                            <label for="model" class="block text-sm font-medium text-gray-300 mb-2">Model</label>
+                            <select id="model" name="model" class="w-full bg-gray-700 border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option>gpt-3.5-turbo</option>
+                                <option>gpt-4</option>
+                                <option>gemini-pro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="max_tokens" class="block text-sm font-medium text-gray-300 mb-2">Max Tokens: <span id="max_tokens_value">10000</span></label>
+                            <input id="max_tokens" name="max_tokens" type="range" min="256" max="50000" step="1" value="2048" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="system_prompt" class="block text-sm font-medium text-gray-300 mb-2">System Prompt</label>
+                        <textarea id="system_prompt" name="system_prompt" rows="4" class="w-full bg-gray-700 border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700">
+                         <div class="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                             <label for="is_history" class="text-sm font-medium text-gray-300">Lưu lịch sử</label>
+                             <input type="checkbox" id="is_history" name="is_history" class="toggle-checkbox">
+                         </div>
+                         <div class="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                             <label for="using_document" class="text-sm font-medium text-gray-300">Dùng tài liệu</label>
+                             <input type="checkbox" id="using_document" name="using_document" class="toggle-checkbox">
+                         </div>
+                         <div class="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                             <label for="free_chat" class="text-sm font-medium text-gray-300">Chat tự do</label>
+                             <input type="checkbox" id="free_chat" name="free_chat" class="toggle-checkbox">
+                         </div>
+                          <div class="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                             <label for="show_sources" class="text-sm font-medium text-gray-300">Hiển thị nguồn</label>
+                             <input type="checkbox" id="show_sources" name="show_sources" class="toggle-checkbox">
+                         </div>
+                    </div>
+                </form>
+            </div>
+            <div class="flex justify-end items-center p-4 bg-gray-800 border-t border-gray-700 rounded-b-lg">
+                 <button id="save-settings-btn" class="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Details Modal -->
+    <div id="file-details-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 w-full max-w-2xl rounded-lg shadow-xl transform transition-all flex flex-col max-h-[90vh]">
+             <div class="flex justify-between items-center p-5 border-b border-gray-700">
+                <h2 class="text-xl font-bold">Chi tiết tệp</h2>
+                <button id="close-file-details-btn" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div id="file-details-content" class="p-6 overflow-y-auto text-sm">
+                <!-- File details will be populated here -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // --- CONFIG & STATE ---
+        const API_BASE_URL = 'http://127.0.0.1:8001/api';
+        
+        let state = {
+            accessToken: localStorage.getItem('accessToken'),
+            currentUser: null,
+            sessions: [],
+            currentSessionId: null,
+            keywords: [],
+            isAutocompleteActive: false,
+            activeKeyword: null,
+            autocompleteTriggerRange: null,
+            autocompleteSelectedIndex: -1,
+            activeFiles: [], 
+        };
+
+        // --- DOM ELEMENTS ---
+        const dom = {
+            loginView: document.getElementById('login-view'),
+            appView: document.getElementById('app-view'),
+            loginForm: document.getElementById('login-form'),
+            loginError: document.getElementById('login-error'),
+            logoutBtn: document.getElementById('logout-btn'),
+            userInfo: {
+                fullname: document.getElementById('user-fullname'),
+                email: document.getElementById('user-email')
+            },
+            newChatBtn: document.getElementById('new-chat-btn'),
+            sessionList: document.getElementById('session-list'),
+            sessionTitle: document.getElementById('session-title'),
+            chatContainer: document.getElementById('chat-container'),
+            chatForm: document.getElementById('chat-form'),
+            messageInput: document.getElementById('message-input'),
+            suggestionBox: document.getElementById('suggestion-box'),
+            settings: {
+                btn: document.getElementById('settings-btn'),
+                modal: document.getElementById('settings-modal'),
+                closeBtn: document.getElementById('close-settings-btn'),
+                saveBtn: document.getElementById('save-settings-btn'),
+                form: document.getElementById('settings-form'),
+                maxTokensSlider: document.getElementById('max_tokens'),
+                maxTokensValue: document.getElementById('max_tokens_value'),
+            },
+            fileDetails: {
+                modal: document.getElementById('file-details-modal'),
+                content: document.getElementById('file-details-content'),
+                closeBtn: document.getElementById('close-file-details-btn')
+            }
+        };
+        
+        // --- UTILS ---
+        function generateUUID() {
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+
+        async function fetchAPI(endpoint, options = {}) {
+            const headers = { 'Content-Type': 'application/json', ...options.headers };
+            if (state.accessToken) {
+                headers['Authorization'] = `Bearer ${state.accessToken}`;
+            }
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers });
+
+            if (!response.ok) {
+                if (response.status === 401) handleLogout();
+                const error = await response.json().catch(() => ({ message: response.statusText }));
+                throw new Error(error.detail || error.message || 'Đã có lỗi xảy ra');
+            }
+            if (response.status === 204) return null;
+            return response.json();
+        }
+
+        function expandAttachments(element, allFiles) {
+            const container = element.parentNode;
+            const fullHtml = allFiles.map(file => `
+                <div class="attachment-item" onclick="showFileDetails('${file.file_id}')" title="Xem chi tiết file ${file.file_name}">
+                    <i data-lucide="file-text" class="w-4 h-4 mr-2 flex-shrink-0"></i>
+                    <span class="truncate">${file.file_name}</span>
+                </div>
+            `).join('');
+            container.innerHTML = fullHtml;
+            lucide.createIcons();
+        }
+
+        // --- UI RENDERING ---
+        function switchView(view) {
+            dom.loginView.classList.toggle('hidden', view !== 'login');
+            dom.appView.classList.toggle('hidden', view !== 'app');
+            if (view === 'app') dom.appView.classList.add('flex');
+        }
+
+        function displayMessage(sender, data, isHistory = false) {
+            const isUser = sender === 'user';
+            const payload = typeof data === 'string' ? { text: data, files: [] } : data;
+            
+            const messageText = isHistory ? data.message_text : payload.text;
+             if (!messageText && (!payload.files || payload.files.length === 0)) return;
+
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = `w-full flex flex-col ${isUser ? 'items-end' : 'items-start'}`;
+
+            if(messageText) {
+                const messageElement = document.createElement('div');
+                messageElement.className = `flex items-start gap-3 w-full ${isUser ? 'justify-end' : 'justify-start'}`;
+
+                const avatar = isUser 
+                    ? `<div class="w-8 h-8 flex-shrink-0 bg-gray-600 rounded-full flex items-center justify-center font-bold">U</div>`
+                    : `<div class="w-8 h-8 flex-shrink-0 bg-indigo-600 rounded-full flex items-center justify-center font-bold">A</div>`;
+                
+                const textNode = document.createElement('p');
+                textNode.textContent = messageText;
+                const messageBubble = `<div class="p-4 rounded-lg max-w-2xl text-white ${isUser ? 'bg-indigo-700' : 'bg-gray-800'}">${textNode.outerHTML}</div>`;
+                
+                messageElement.innerHTML = isUser ? `${messageBubble}${avatar}` : `${avatar}${messageBubble}`;
+                messageWrapper.appendChild(messageElement);
+            }
+
+            if (!isUser && payload.files && payload.files.length > 0) {
+                const attachmentsContainer = document.createElement('div');
+                attachmentsContainer.className = 'attachments-container';
+                attachmentsContainer.style.marginRight = isUser ? '2.75rem' : '0';
+                attachmentsContainer.style.marginLeft = isUser ? '0' : '2.75rem';
+
+                const MAX_VISIBLE_FILES = 2;
+                const files = payload.files;
+                let attachmentsHtml = '';
+
+                if (files.length <= MAX_VISIBLE_FILES) {
+                    attachmentsHtml = files.map(file => `
+                        <div class="attachment-item" onclick="showFileDetails('${file.file_id}')" title="Xem chi tiết file ${file.file_name}">
+                            <i data-lucide="file-text" class="w-4 h-4 mr-1 flex-shrink-0"></i>
+                            <span class="truncate">${file.file_name}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    attachmentsHtml = files.slice(0, MAX_VISIBLE_FILES).map(file => `
+                        <div class="attachment-item" onclick="showFileDetails('${file.file_id}')" title="Xem chi tiết file ${file.file_name}">
+                            <i data-lucide="file-text" class="w-4 h-4 mr-1 flex-shrink-0"></i>
+                            <span class="truncate">${file.file_name}</span>
+                        </div>
+                    `).join('');
+
+                    const remainingCount = files.length - MAX_VISIBLE_FILES;
+                    const allFilesJson = JSON.stringify(files.map(f => ({ file_id: f.file_id, file_name: f.file_name }))).replace(/"/g, "'");
+
+                    attachmentsHtml += `
+                        <div class="attachment-item" style="background-color: #4a5568;" onclick="expandAttachments(this, ${allFilesJson})">
+                            <span class="font-semibold">+${remainingCount}</span>
+                        </div>
+                    `;
+                }
+                attachmentsContainer.innerHTML = attachmentsHtml;
+                messageWrapper.appendChild(attachmentsContainer);
+            }
+            
+            dom.chatContainer.appendChild(messageWrapper);
+            lucide.createIcons();
+            if (!isHistory) {
+                dom.chatContainer.scrollTop = dom.chatContainer.scrollHeight;
+            }
+        }
+        
+        function renderSessions() {
+            dom.sessionList.innerHTML = '';
+            if (!state.sessions || state.sessions.length === 0) {
+                dom.sessionList.innerHTML = '<p class="text-sm text-gray-400 px-2">Chưa có cuộc trò chuyện nào.</p>';
+                return;
+            }
+            
+            state.sessions.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            state.sessions.forEach(session => {
+                const isActive = session.id === state.currentSessionId;
+                const item = document.createElement('div');
+                item.className = `session-item flex items-center justify-between p-2 rounded-lg cursor-pointer ${isActive ? 'bg-indigo-600/50' : 'hover:bg-gray-700'}`;
+                item.dataset.sessionId = session.id;
+                
+                item.innerHTML = `
+                    <div class="flex-1 truncate pr-2">
+                        <span class="session-title-text text-sm text-gray-200">${session.title}</span>
+                        <input type="text" class="session-title-input hidden w-full bg-gray-600 text-sm rounded px-1" value="${session.title}" />
+                    </div>
+                    <div class="session-actions flex items-center gap-1">
+                        <button class="edit-title-btn p-1 text-gray-400 hover:text-white"><i data-lucide="pencil" class="w-3 h-3"></i></button>
+                    </div>
+                `;
+
+                item.addEventListener('click', () => {
+                    if (!item.querySelector('.session-title-input').classList.contains('hidden')) return;
+                    handleSessionClick(session.id);
+                });
+                
+                const editBtn = item.querySelector('.edit-title-btn');
+                const titleText = item.querySelector('.session-title-text');
+                const titleInput = item.querySelector('.session-title-input');
+
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    titleText.classList.add('hidden');
+                    titleInput.classList.remove('hidden');
+                    titleInput.focus();
+                    titleInput.select();
+                });
+
+                const saveTitle = async () => {
+                     const newTitle = titleInput.value.trim();
+                     if (newTitle && newTitle !== session.title) {
+                        try {
+                           const updatedSessionData = await updateSessionTitle(session.id, newTitle);
+                           session.title = updatedSessionData.session.title;
+                           titleText.textContent = session.title;
+                           if (session.id === state.currentSessionId) {
+                               dom.sessionTitle.textContent = session.title;
+                           }
+                        } catch (error) {
+                           console.error("Failed to update title:", error);
+                           titleInput.value = session.title; // Revert on failure
+                        }
+                     }
+                     titleInput.classList.add('hidden');
+                     titleText.classList.remove('hidden');
+                }
+
+                titleInput.addEventListener('blur', saveTitle);
+                titleInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') saveTitle();
+                    if (e.key === 'Escape') {
+                        titleInput.value = session.title;
+                        titleInput.classList.add('hidden');
+                        titleText.classList.remove('hidden');
+                    }
+                });
+
+
+                dom.sessionList.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        function updateUserInfo() {
+            if (state.currentUser) {
+                dom.userInfo.fullname.textContent = state.currentUser.full_name;
+                dom.userInfo.email.textContent = state.currentUser.email;
+            }
+        }
+
+        // --- API & DATA ---
+        
+        async function fetchSessions() {
+            if (!state.currentUser) return;
+            try {
+                state.sessions = await fetchAPI(`/chatbot/sessions/${state.currentUser.id}`);
+                renderSessions();
+            } catch (error) {
+                console.error('Failed to fetch sessions:', error);
+                dom.sessionList.innerHTML = '<p class="text-sm text-red-400 px-2">Lỗi tải lịch sử.</p>';
+            }
+        }
+        
+        async function fetchHistory(sessionId) {
+            dom.chatContainer.innerHTML = '<p class="text-center text-gray-400">Đang tải lịch sử trò chuyện...</p>';
+            try {
+                const historyData = await fetchAPI(`/chatbot/history/${sessionId}`);
+                dom.chatContainer.innerHTML = ''; // Clear loading message
+                if (historyData.messages && historyData.messages.length > 0) {
+                    historyData.messages.forEach(msg => {
+                        displayMessage(msg.sender_type, msg, true);
+                    });
+                } else {
+                     displayMessage('assistant', { text: 'Bắt đầu cuộc trò chuyện. Tôi có thể giúp gì cho bạn?' }, true);
+                }
+                setTimeout(() => dom.chatContainer.scrollTop = dom.chatContainer.scrollHeight, 0);
+            } catch (error) {
+                 console.error('Failed to fetch history:', error);
+                 dom.chatContainer.innerHTML = `<p class="text-center text-red-400">Lỗi khi tải lịch sử: ${error.message}</p>`;
+            }
+        }
+        
+        async function updateSessionTitle(sessionId, newTitle) {
+            return await fetchAPI(`/chatbot/sessions/${sessionId}/edit-title`, {
+                method: 'PUT',
+                body: JSON.stringify({ new_title: newTitle })
+            });
+        }
+        
+        async function loadKeywords() {
+            try {
+                state.keywords = await fetchAPI('/autoc/autocomplete/keywords');
+            } catch (error) {
+                console.error("Failed to load keywords:", error);
+            }
+        }
+        
+        // --- AUTHENTICATION ---
+        async function handleLogin(event) {
+            event.preventDefault();
+            dom.loginError.textContent = '';
+            const formData = new FormData(dom.loginForm);
+            const body = new URLSearchParams(formData);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body.toString()
+                });
+                if (!response.ok) {
+                    const errorData = await response.json().catch(()=>({detail: 'Invalid credentials'}));
+                    throw new Error(errorData.detail);
+                }
+                const data = await response.json();
+                state.accessToken = data.access_token;
+                localStorage.setItem('accessToken', state.accessToken);
+                await initializeApp();
+            } catch (error) {
+                dom.loginError.textContent = 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.';
+                console.error('Login failed:', error);
+            }
+        }
+        
+        function handleLogout() {
+            state.accessToken = null;
+            state.currentUser = null;
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('currentSessionId');
+            switchView('login');
+        }
+
+        // --- CHAT & AUTOCOMPLETE LOGIC ---
+        function resetAutocomplete() {
+            state.isAutocompleteActive = false;
+            state.activeKeyword = null;
+            state.autocompleteTriggerRange = null;
+            state.autocompleteSelectedIndex = -1;
+            if (dom.suggestionBox) {
+                dom.suggestionBox.classList.add('hidden');
+                dom.suggestionBox.innerHTML = '';
+            }
+        }
+
+        function handleMessageKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                if (state.isAutocompleteActive && state.autocompleteSelectedIndex !== -1) {
+                    const selectedItem = dom.suggestionBox.querySelector('.suggestion-item-selected');
+                    if (selectedItem) selectSuggestionItem(selectedItem);
+                } else {
+                    dom.chatForm.requestSubmit();
+                }
+                return;
+            }
+
+            if (state.isAutocompleteActive) {
+                const items = dom.suggestionBox.querySelectorAll('[data-file-id]');
+                if (items.length === 0) return;
+
+                if (['ArrowDown', 'ArrowUp', 'Tab'].includes(event.key)) {
+                    event.preventDefault();
+                    if (event.key === 'ArrowDown' || event.key === 'Tab') {
+                        state.autocompleteSelectedIndex = (state.autocompleteSelectedIndex + 1) % items.length;
+                    } else if (event.key === 'ArrowUp') {
+                        state.autocompleteSelectedIndex = (state.autocompleteSelectedIndex - 1 + items.length) % items.length;
+                    }
+                    updateSuggestionSelection();
+                } else if (event.key === 'Escape') {
+                    resetAutocomplete();
+                }
+            }
+        }
+        
+        async function handleMessageInput() {
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return resetAutocomplete();
+            const range = selection.getRangeAt(0);
+            const textContent = range.startContainer.textContent || '';
+            const cursorPosition = range.startOffset;
+
+            if (state.isAutocompleteActive) {
+                const triggerNode = state.autocompleteTriggerRange.commonAncestorContainer;
+                if (!document.body.contains(triggerNode)) {
+                    return resetAutocomplete();
+                }
+                const startOffset = state.autocompleteTriggerRange.startOffset;
+                const keywordInText = triggerNode.textContent.substring(startOffset, startOffset + state.activeKeyword.keyword.length);
+                if (cursorPosition < startOffset || keywordInText !== state.activeKeyword.keyword) {
+                    return resetAutocomplete();
+                }
+                const prefix = textContent.substring(startOffset + state.activeKeyword.keyword.length + 1, cursorPosition);
+                if (prefix.includes(' ')) {
+                    return resetAutocomplete();
+                }
+                await updateSuggestions(prefix.trim());
+           } else {
+                const lastChar = textContent.substring(cursorPosition - 1, cursorPosition);
+                console.log("lastChar:", JSON.stringify(lastChar)); // debug ký tự ngay trước cursor
+
+                if (lastChar === ' ' || lastChar === '\u00A0') {
+                    const textBeforeCursor = textContent.substring(0, cursorPosition);
+
+                    // ✅ Bỏ khoảng trắng cuối cùng đi rồi mới lấy lastWord
+                    const textWithoutTrailingSpace = textBeforeCursor.replace(/[\s\u00A0]+$/, '');
+                    const lastWord = textWithoutTrailingSpace.split(/[\s\u00A0]+/).pop();
+
+                    console.log("textBeforeCursor:", textBeforeCursor);
+                    console.log("textWithoutTrailingSpace:", textWithoutTrailingSpace);
+                    console.log("lastWord:", lastWord);
+                    console.log("keywords:", state.keywords);
+
+                    if (!lastWord) return;
+
+                    const matchingKeyword = state.keywords.find(k => k.keyword === lastWord);
+                    console.log("matchingKeyword:", matchingKeyword);
+
+                    if (matchingKeyword) {
+                        state.isAutocompleteActive = true;
+                        state.activeKeyword = matchingKeyword;
+
+                        const triggerRange = document.createRange();
+                        triggerRange.setStart(range.startContainer, cursorPosition - lastWord.length - 1);
+                        triggerRange.setEnd(range.startContainer, cursorPosition);
+                        state.autocompleteTriggerRange = triggerRange;
+
+                        await updateSuggestions('');
+                    }
+                }
+            }
+
+
+        }
+        
+        async function updateSuggestions(prefix) {
+            if (!state.isAutocompleteActive) return;
+            try {
+                const files = await fetchAPI(`/autoc/autocomplete/files?keyword=${state.activeKeyword.keyword}&file_prefix=${encodeURIComponent(prefix)}`);
+                if (files.length > 0) {
+                    dom.suggestionBox.innerHTML = files.map(file => 
+                        `<div class="p-3 hover:bg-gray-600 cursor-pointer text-sm" data-file-id="${file.id}" data-file-name="${file.original_file_name}">
+                            ${file.original_file_name}
+                         </div>`
+                    ).join('');
+                    dom.suggestionBox.classList.remove('hidden');
+                    state.autocompleteSelectedIndex = 0;
+                    updateSuggestionSelection();
+                } else {
+                    dom.suggestionBox.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error("Failed to fetch file suggestions:", error);
+                dom.suggestionBox.classList.add('hidden');
+            }
+        }
+
+        function updateSuggestionSelection() {
+            const items = dom.suggestionBox.querySelectorAll('[data-file-id]');
+            items.forEach((item, index) => {
+                item.classList.toggle('suggestion-item-selected', index === state.autocompleteSelectedIndex);
+                if (index === state.autocompleteSelectedIndex) {
+                    item.scrollIntoView({ block: 'nearest' });
+                }
+            });
+        }
+        
+        function selectSuggestionItem(itemElement) {
+            if (!itemElement || !state.isAutocompleteActive) return;
+            
+            const fileId = itemElement.dataset.fileId;
+            const fileName = itemElement.dataset.fileName;
+
+            const newSpan = document.createElement('span');
+            newSpan.className = 'highlighted-file';
+            newSpan.contentEditable = 'false';
+            newSpan.textContent = fileName;
+            newSpan.dataset.fileId = fileId;
+            
+            const spaceNode = document.createTextNode('\u00A0'); 
+            const selection = window.getSelection();
+            state.autocompleteTriggerRange.deleteContents();
+            state.autocompleteTriggerRange.insertNode(newSpan);
+            
+            const newRange = document.createRange();
+            newRange.setStartAfter(newSpan);
+            newRange.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(newRange);
+            newRange.insertNode(spaceNode);
+            newRange.setStartAfter(spaceNode);
+            selection.removeAllRanges();
+            selection.addRange(newRange);
+            
+            resetAutocomplete();
+            dom.messageInput.focus();
+        }
+
+        function getMessagePayload() {
+            const filesInMessage = [];
+            let textContent = '';
+            dom.messageInput.childNodes.forEach(node => {
+                if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('highlighted-file')) {
+                     filesInMessage.push({ file_id: node.dataset.fileId, file_name: node.textContent });
+                     // Add a placeholder in text for context
+                     textContent += `[file: ${node.textContent}]`;
+                } else {
+                    textContent += node.textContent;
+                }
+            });
+            return { apiMessage: textContent.trim(), filesInMessage };
+        }
+        
+        async function handleSendMessage(event) {
+            event.preventDefault();
+            const { apiMessage, filesInMessage } = getMessagePayload();
+
+            if (!apiMessage && filesInMessage.length === 0) return;
+            
+            const userMessageText = dom.messageInput.innerText.trim();
+            displayMessage('user', { text: userMessageText });
+            dom.messageInput.innerHTML = '';
+            resetAutocomplete();
+            
+            // Add files from message to active files list for context
+            filesInMessage.forEach(f => {
+                if (!state.activeFiles.some(af => af.file_id === f.file_id)) {
+                    state.activeFiles.push(f);
+                }
+            });
+
+            try {
+                const apiPayload = {
+                    user_id: state.currentUser.id,
+                    session_id: state.currentSessionId,
+                    message: apiMessage,
+                    files: state.activeFiles // Use all active files for context
+                };
+
+                const response = await fetchAPI('/chatbot/chatV2', {
+                    method: 'POST',
+                    body: JSON.stringify(apiPayload)
+                });
+                
+                const responseData = {
+                    text: response.message || response.response,
+                    files: response.files || []
+                };
+                displayMessage('assistant', responseData);
+
+                const currentSession = state.sessions.find(s => s.id === state.currentSessionId);
+                if(currentSession && currentSession.title.startsWith("New Chat")) {
+                    await fetchSessions();
+                    const updatedSession = state.sessions.find(s => s.id === state.currentSessionId);
+                    if (updatedSession) {
+                        dom.sessionTitle.textContent = updatedSession.title;
+                    }
+                }
+            } catch (error) {
+                console.error("Chat API error:", error);
+                displayMessage('assistant', { text: `Lỗi: ${error.message}` });
+            }
+        }
+
+        function handleNewChat() {
+            const newSessionId = `frontend_${generateUUID()}`;
+            const newSession = {
+                id: newSessionId,
+                title: `Cuộc trò chuyện mới`,
+                created_at: new Date().toISOString(),
+                user_id: state.currentUser.id,
+                isNew: true
+            };
+            
+            state.sessions.push(newSession);
+            handleSessionClick(newSessionId, true);
+        }
+
+        async function handleSessionClick(sessionId, isNew = false) {
+            if (state.currentSessionId === sessionId && !isNew) return;
+
+            state.currentSessionId = sessionId;
+            localStorage.setItem('currentSessionId', sessionId);
+            state.activeFiles = []; // Reset active files for the new session
+            
+            const sessionData = state.sessions.find(s => s.id === sessionId);
+            dom.sessionTitle.textContent = sessionData ? sessionData.title : 'Chat';
+            
+            if (!isNew) {
+                await fetchHistory(sessionId);
+            } else {
+                dom.chatContainer.innerHTML = '';
+                displayMessage('assistant', {text: 'Bắt đầu cuộc trò chuyện mới. Tôi có thể giúp gì cho bạn?'});
+            }
+            renderSessions();
+        }
+
+        // --- FILE DETAILS ---
+        async function showFileDetails(fileId) {
+             const modal = dom.fileDetails.modal;
+             const content = dom.fileDetails.content;
+             content.innerHTML = '<p>Đang tải chi tiết tệp...</p>';
+             modal.classList.remove('hidden');
+
+            try {
+                const fileData = await fetchAPI(`/file/files/${fileId}`);
+                const { original_file_name, folder_path, extract_text, ...otherDetails } = fileData;
+                
+                content.innerHTML = `
+                    <div class="space-y-4 text-gray-200">
+                        <div class="pb-2 border-b border-gray-700">
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Tên file</p>
+                            <p class="mt-1 text-base">${original_file_name || 'N/A'}</p>
+                        </div>
+                        <div class="pb-2 border-b border-gray-700">
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Thư mục</p>
+                            <p class="mt-1 text-base">${folder_path || 'N/A'}</p>
+                        </div>
+                         <div class="pb-2">
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Nội dung trích xuất</p>
+                            <p class="mt-1 text-sm bg-gray-900 p-2 rounded-md max-h-48 overflow-y-auto font-mono">${extract_text || 'Chưa có nội dung.'}</p>
+                        </div>
+                        <div>
+                           <button id="expand-details-btn" class="text-sm text-indigo-400 hover:underline">Xem thêm chi tiết</button>
+                           <div id="extra-details" class="hidden mt-2 bg-gray-900 p-2 rounded-md">
+                                <pre class="whitespace-pre-wrap text-xs">${JSON.stringify(otherDetails, null, 2)}</pre>
+                           </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('expand-details-btn').addEventListener('click', (e) => {
+                    document.getElementById('extra-details').classList.toggle('hidden');
+                    e.target.textContent = document.getElementById('extra-details').classList.contains('hidden') 
+                        ? 'Xem thêm chi tiết' 
+                        : 'Ẩn bớt';
+                });
+
+            } catch(error) {
+                content.innerHTML = `<p class="text-red-400">Không thể tải chi tiết tệp: ${error.message}</p>`;
+                console.error("Failed to fetch file details:", error);
+            }
+        }
+
+        // --- SETTINGS ---
+        async function loadSettings() {
+            if (!state.currentUser) return;
+            try {
+                const settings = await fetchAPI('/chat-settings/getV2', {
+                    method: 'POST',
+                    body: JSON.stringify({ user_id: state.currentUser.id })
+                });
+                
+                const form = dom.settings.form;
+                form.model.value = settings.model;
+                form.max_tokens.value = settings.max_tokens;
+                dom.settings.maxTokensValue.textContent = settings.max_tokens;
+                form.system_prompt.value = settings.system_prompt;
+                form.is_history.checked = settings.is_history;
+                form.using_document.checked = settings.using_document;
+                form.free_chat.checked = settings.free_chat;
+                form.show_sources.checked = settings.show_sources;
+            } catch (error) {
+                console.error("Failed to load settings:", error);
+            }
+        }
+
+        async function handleSaveSettings() {
+            if (!state.currentUser) return;
+            const form = dom.settings.form;
+            const payload = {
+                user_id: state.currentUser.id,
+                payload: {
+                    model: form.model.value,
+                    max_tokens: parseInt(form.max_tokens.value, 10),
+                    system_prompt: form.system_prompt.value,
+                    is_history: form.is_history.checked,
+                    using_document: form.using_document.checked,
+                    free_chat: form.free_chat.checked,
+                    show_sources: form.show_sources.checked,
+                }
+            };
+            
+            try {
+                await fetchAPI('/chat-settings/editV2', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                dom.settings.modal.classList.add('hidden');
+            } catch(error) {
+                console.error("Failed to save settings:", error);
+                alert(`Lưu cài đặt thất bại: ${error.message}`);
+            }
+        }
+
+        // --- INITIALIZATION ---
+        async function initializeApp() {
+            if (!state.accessToken) {
+                switchView('login');
+                return;
+            }
+            try {
+                state.currentUser = await fetchAPI('/users/me');
+                updateUserInfo();
+                await loadKeywords();
+                await fetchSessions();
+                
+                const lastSessionId = localStorage.getItem('currentSessionId');
+                const lastSessionExists = state.sessions.some(s => s.id === lastSessionId);
+
+                if (lastSessionId && lastSessionExists) {
+                    await handleSessionClick(lastSessionId);
+                } else if (state.sessions.length > 0) {
+                    await handleSessionClick(state.sessions[0].id);
+                } else {
+                    handleNewChat();
+                }
+
+                switchView('app');
+            } catch (error) {
+                console.error('Initialization failed:', error);
+                handleLogout();
+            }
+        }
+        
+        // --- EVENT LISTENERS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initializeApp();
+        });
+        
+        dom.loginForm.addEventListener('submit', handleLogin);
+        dom.logoutBtn.addEventListener('click', handleLogout);
+        dom.chatForm.addEventListener('submit', handleSendMessage);
+        dom.messageInput.addEventListener('keydown', handleMessageKeyDown);
+        dom.messageInput.addEventListener('input', handleMessageInput);
+        dom.suggestionBox.addEventListener('click', (e) => selectSuggestionItem(e.target.closest('[data-file-id]')));
+        dom.newChatBtn.addEventListener('click', handleNewChat);
+
+        // Settings Modal Listeners
+        dom.settings.btn.addEventListener('click', async () => {
+            await loadSettings();
+            dom.settings.modal.classList.remove('hidden');
+        });
+        dom.settings.closeBtn.addEventListener('click', () => dom.settings.modal.classList.add('hidden'));
+        dom.settings.saveBtn.addEventListener('click', handleSaveSettings);
+        dom.settings.maxTokensSlider.addEventListener('input', (e) => dom.settings.maxTokensValue.textContent = e.target.value);
+        
+        // File Details Modal Listeners
+        dom.fileDetails.closeBtn.addEventListener('click', () => dom.fileDetails.modal.classList.add('hidden'));
+
+        // Make functions globally available for inline onclick handlers
+        window.showFileDetails = showFileDetails;
+        window.expandAttachments = expandAttachments;
+    </script>
+</body>
+
+</html>

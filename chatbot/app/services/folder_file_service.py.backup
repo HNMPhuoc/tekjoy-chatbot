@@ -1,0 +1,606 @@
+from pathlib import Path
+from typing import List, Optional, Union, Dict, Any
+from uuid import UUID, uuid4
+from datetime import datetime, timezone, date, timedelta
+import logging
+
+from fastapi import UploadFile, HTTPException, status
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.orm import joinedload, aliased
+from sqlalchemy import select, distinct, or_, union, func, and_
+
+from app.db.models import (
+    Folder, File, User, UserGroup, GroupAccessLevel, 
+    FileAccessLevel, AccessLevel, Group
+)
+from app.schemas.folder_file_schema import (
+    FolderPublic, FolderCreate, FolderUpdate,
+    FilePublic, FileCreate, FileUpdate, FolderContentResponse
+)
+from app.services.postgres_service import postgres_service
+from app.services.user_access_level_service import UserAccessLevelService
+
+logger = logging.getLogger(__name__)
+
+class DocumentService:
+    def __init__(self):
+        """Khởi tạo service và tạo các thư mục cần thiết."""
+        self.base_dir = Path.cwd()
+        self.upload_dir = self.base_dir / "uploads"
+        self.temp_dir = self.base_dir / "temp"
+                id=str(uuid.uuid4()),
+                name=folder_data.name,
+                parent_id=str(folder_data.parent_id) if folder_data.parent_id else None,
+                created_by_user_id=str(user_id)
+            )
+            db.add(new_folder)
+            await db.commit()
+            await db.refresh(new_folder)
+            return FolderPublic.model_validate(new_folder)
+        except IntegrityError:
+            await db.rollback()
+            return None
+    
+    async def get_all_folders(self, db: AsyncSession) -> List[FolderPublic]:
+        """Lấy tất cả các thư mục."""
+        result = await db.execute(select(Folder))
+        folders = result.scalars().all()
+        return [FolderPublic.model_validate(folder) for folder in folders]
+
+    async def get_folder_by_id(self, db: AsyncSession, folder_id: UUID) -> Optional[FolderPublic]:
+        """Lấy một thư mục bằng ID."""
+        folder = await db.get(Folder, str(folder_id))
+        if folder:
+            return FolderPublic.model_validate(folder)
+        return None
+
+    async def update_folder(self, db: AsyncSession, folder_id: UUID, folder_data: FolderUpdate, user_id: UUID, is_admin: bool) -> Optional[FolderPublic]:
+        """Cập nhật một thư mục (chỉ admin hoặc người tạo)."""
+        folder = await db.get(Folder, str(folder_id))
+        if not folder:
+            return None
+        
+        # Kiểm tra quyền sử dụng UUID comparison
+        from uuid import UUID
+        try:
+            folder_created_by_uuid = UUID(str(folder.created_by_user_id))
+            user_uuid = UUID(str(user_id))
+            
+            if not is_admin and folder_created_by_uuid != user_uuid:
+                return None
+        except Exception:
+            # Fallback to string comparison
+            if not is_admin and folder.created_by_user_id != str(user_id):
+                return None
+
+        update_data = folder_data.model_dump(exclude_unset=True)
+        for key, value in update_data.items():
+            if key == 'parent_id' and value is not None:
+                setattr(folder, key, str(value))
+            else:
+                setattr(folder, key, value)
+        
+        await db.commit()
+        await db.refresh(folder)
+        return FolderPublic.model_validate(folder)
+
+    async def delete_folder(self, db: AsyncSession, folder_id: UUID, user_id: UUID, is_admin: bool) -> bool:
+        """Xóa một thư mục (chỉ admin hoặc người tạo)."""
+        folder = await db.get(Folder, str(folder_id))
+        if not folder:
+            return False
+        
+        # Kiểm tra quyền sử dụng UUID comparison
+        from uuid import UUID
+        try:
+            folder_created_by_uuid = UUID(str(folder.created_by_user_id))
+            user_uuid = UUID(str(user_id))
+            
+            if not is_admin and folder_created_by_uuid != user_uuid:
+                return False
+        except Exception:
+            # Fallback to string comparison
+            if not is_admin and folder.created_by_user_id != str(user_id):
+                return False
+            
+        await db.delete(folder)
+        await db.commit()
+        return True
+
+    # --- FILE OPERATIONS ---
+
+    async def save_upload_file(self, file: UploadFile,
+                               user_id: str = None,
+                               project_code: str = None,
+                               project_name: str = None,
+                               document_type: str = None,
+                               document_date: datetime = None,
+                               vendor_name: str = None,
+                               contract_number: str = None,
+                               total_value: float = None,
+                               currency: str = None,
+                               warranty_period_months: int = None,
+                               is_template: bool = False,
+                               folder_id: Optional[str] = None,
+                               folder_path: str = None,
+                               keywords: list = None
+                               ) -> dict:
+        """Xử lý lưu file upload và lưu thông tin vào PostgreSQL."""
+        try:
+            BASE_DIR = Path.cwd()
+            UPLOAD_DIR = BASE_DIR / "uploads"
+            UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+            content = await file.read()
+            size = len(content)
+
+            if size > 50 * 1024 * 1024:
+                raise HTTPException(status_code=400, detail="File size exceeds 50MB limit")
+
+            utc_time = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+            filename = f"{utc_time}_{file.filename}"
+            filepath = UPLOAD_DIR / filename
+            
+            with open(filepath, "wb") as f:
+                f.write(content)
+
+            file_url = f"http://localhost:8001/uploads/{filename}"
+            file_extension = os.path.splitext(file.filename)[1][1:]
+            abs_filepath = str(filepath.absolute())
+
+            # Cần đảm bảo rằng postgres_service đã được import
+            result = await postgres_service.insert_file_data(
+                original_file_name=file.filename,
+                file_extension=file_extension,
+                mime_type=file.content_type,
+                file_size_bytes=size,
+                storage_path=abs_filepath,
+                download_link=str(file_url),
+                uploaded_by_user_id=user_id,
+                processing_status='uploaded',
+                document_type=document_type,
+                project_code=project_code,
+                project_name=project_name,
+                document_date=document_date,
+                vendor_name=vendor_name,
+                contract_number=contract_number,
+                total_value=total_value,
+                currency=currency,
+                warranty_period_months=warranty_period_months,
+                is_template=is_template,
+                keywords=keywords,
+                folder_id=folder_id,
+                folder_path=folder_path,
+                thumbnail_path=None,
+                extracted_text=None,
+                char_count=None,
+                word_count=None
+            )
+
+            if not result["success"]:
+                os.remove(filepath)
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Lỗi khi lưu thông tin file: {result['error']}"
+                )
+
+            return result["file_info"]
+        except HTTPException:
+            raise
+        except Exception as e:
+            if "filepath" in locals() and os.path.exists(filepath):
+                os.remove(filepath)
+            raise HTTPException(status_code=500, detail=f"Lỗi khi upload file: {str(e)}")
+
+    
+    async def create_file(self, db: AsyncSession, file_data: FileCreate, user_id: UUID) -> Optional[FilePublic]:
+        """Tạo một tệp tin mới."""
+        try:
+            new_file_dict = file_data.model_dump(exclude_unset=True)
+            if 'folder_id' in new_file_dict and new_file_dict['folder_id'] is not None:
+                new_file_dict['folder_id'] = str(new_file_dict['folder_id'])
+            
+            new_file = File(
+                id=str(uuid.uuid4()),
+                **new_file_dict,
+                uploaded_by_user_id=str(user_id)
+            )
+            db.add(new_file)
+            await db.commit()
+            await db.refresh(new_file)
+            return FilePublic.model_validate(new_file)
+        except IntegrityError:
+            await db.rollback()
+            return None
+
+    async def get_all_files(self, db: AsyncSession) -> List[FilePublic]:
+        """Lấy tất cả các tệp tin."""
+        result = await db.execute(select(File))
+        files = result.scalars().all()
+        return [FilePublic.model_validate(file) for file in files]
+        
+    async def get_file_by_id(self, db: AsyncSession, file_id: UUID) -> Optional[FilePublic]:
+        """Lấy một tệp tin bằng ID."""
+        file = await db.get(File, str(file_id))
+        if file:
+            return FilePublic.model_validate(file)
+        return None
+
+    async def update_file(self, db: AsyncSession, file_id: UUID, file_data: FileUpdate, user_id: UUID, is_admin: bool) -> Optional[FilePublic]:
+        """Cập nhật một tệp tin (chỉ admin hoặc người tải lên)."""
+        file = await db.get(File, str(file_id))
+        if not file:
+            return None
+
+        # Kiểm tra quyền sử dụng UUID comparison
+        from uuid import UUID
+        try:
+            file_uploaded_by_uuid = UUID(str(file.uploaded_by_user_id))
+            user_uuid = UUID(str(user_id))
+            
+            if not is_admin and file_uploaded_by_uuid != user_uuid:
+                return None
+        except Exception:
+            # Fallback to string comparison
+            if not is_admin and file.uploaded_by_user_id != str(user_id):
+                return None
+
+        update_data = file_data.model_dump(exclude_unset=True)
+        for key, value in update_data.items():
+            if key == 'folder_id' and value is not None:
+                setattr(file, key, str(value))
+            else:
+                setattr(file, key, value)
+
+        await db.commit()
+        await db.refresh(file)
+        return FilePublic.model_validate(file)
+
+    async def delete_file(self, db: AsyncSession, file_id: UUID, user_id: UUID, is_admin: bool) -> bool:
+        """Xóa một tệp tin (chỉ admin hoặc người tải lên)."""
+        file = await db.get(File, str(file_id))
+        if not file:
+            return False
+            
+        # Kiểm tra quyền sử dụng UUID comparison
+        from uuid import UUID
+        try:
+            file_uploaded_by_uuid = UUID(str(file.uploaded_by_user_id))
+            user_uuid = UUID(str(user_id))
+            
+            if not is_admin and file_uploaded_by_uuid != user_uuid:
+                return False
+        except Exception:
+            # Fallback to string comparison
+            if not is_admin and file.uploaded_by_user_id != str(user_id):
+                return False
+            
+        await db.delete(file)
+        await db.commit()
+        return True
+
+    # --- LIST CONTENT IN FOLDER ---
+    # async def list_folder_content(self, db: AsyncSession, folder_id: Optional[UUID]) -> FolderContentResponse:
+    #     """Liệt kê các thư mục con và tệp tin trong một thư mục cụ thể hoặc thư mục gốc."""
+        
+    #     folder_id_str = str(folder_id) if folder_id else None
+
+    #     # Query cho các thư mục con
+    #     if folder_id_str:
+    #         folder_q = select(Folder).where(Folder.parent_id == folder_id_str)
+    #     else:
+    #         folder_q = select(Folder).where(Folder.parent_id.is_(None))
+        
+    #     folder_result = await db.execute(folder_q)
+    #     folders = folder_result.scalars().all()
+
+    #     # Query cho các tệp tin
+    #     if folder_id_str:
+    #         file_q = select(File).where(File.folder_id == folder_id_str)
+    #     else:
+    #         file_q = select(File).where(File.folder_id.is_(None))
+
+    #     file_result = await db.execute(file_q)
+    #     files = file_result.scalars().all()
+        
+    #     return FolderContentResponse(
+    #         folders=[FolderPublic.model_validate(f) for f in folders],
+    #         files=[FilePublic.model_validate(f) for f in files]
+    #     )
+    async def list_folder_content(
+        self,
+        db: AsyncSession,
+        folder_id: Optional[UUID],
+        user_id: str,
+        is_admin: bool
+    ) -> FolderContentResponse:
+        folder_id_str = str(folder_id) if folder_id else None
+
+        # --- Lấy danh sách file mà user có quyền ---
+        if is_admin:
+            # Admin: tất cả file
+            result = await db.execute(select(File))
+            accessible_files = result.scalars().all()
+        else:
+            accessible_files = await self.get_accessible_filesV3(db, user_id, is_admin=False)
+
+        accessible_file_ids = {f.id for f in accessible_files}
+
+        # --- Lấy folder con ---
+        if folder_id_str:
+            folder_q = select(Folder).where(Folder.parent_id == folder_id_str)
+        else:
+            folder_q = select(Folder).where(Folder.parent_id.is_(None))
+        all_folders = (await db.execute(folder_q)).scalars().all()
+
+        # --- Lấy file trong folder hiện tại ---
+        if folder_id_str:
+            file_q = select(File).where(File.folder_id == folder_id_str)
+        else:
+            file_q = select(File).where(File.folder_id.is_(None))
+        all_files = (await db.execute(file_q)).scalars().all()
+
+        # --- Lọc quyền ---
+        if is_admin:
+            files = all_files
+            folders = all_folders
+        else:
+            # files = [f for f in all_files if f.id in accessible_file_ids]
+
+            # folders = []
+            # for folder in all_folders:
+            #     has_file = any(f.folder_id == folder.id for f in accessible_files)
+            #     has_child = any(ch.folder_id == folder.id for ch in accessible_files if ch.folder_id)
+            #     if has_file or has_child:
+            #         folders.append(folder)
+            files = [f for f in all_files if f.id in accessible_file_ids]
+
+            folders = []
+            for folder in all_folders:
+                has_file = any(f.folder_id == folder.id for f in accessible_files)
+                has_child = any(ch.folder_id == folder.id for ch in accessible_files if ch.folder_id)
+                is_owner = folder.created_by_user_id == UUID(user_id)
+
+                if has_file or has_child or is_owner:
+                    folders.append(folder)
+
+        return FolderContentResponse(
+            folders=[FolderPublic.model_validate(f) for f in folders],
+            files=[FilePublic.model_validate(f) for f in files],
+        )
+
+
+
+    async def get_accessible_files(self, db: AsyncSession, user_id: UUID, is_admin: bool) -> List[FilePublic]:
+        """Lấy tất cả các tệp tin mà người dùng có quyền truy cập."""
+        if is_admin:
+            # Admins can access all files
+            files_q = select(File)
+        else:
+            # Regular users can only access their own files
+            files_q = select(File).where(File.uploaded_by_user_id == str(user_id))
+            
+        files_result = await db.execute(files_q)
+        files = files_result.scalars().all()
+        
+        # Validate each file object against the Pydantic model
+        return [FilePublic.model_validate(f) for f in files]
+
+# // dùng cho chỗ folder 
+    async def get_accessible_filesV3(self, db: AsyncSession, user_id: str, is_admin: bool):
+        if is_admin:
+            # Admin: lấy tất cả file
+            result = await db.execute(select(File))
+            return result.scalars().all()
+
+        try:
+            user_uuid = user_id
+        except (ValueError, TypeError):
+            user_uuid = None
+
+        # Files có quyền thông qua group
+        stmt = (
+            select(File).distinct(File.id)
+            .join(FileAccessLevel, FileAccessLevel.file_id == File.id)
+            .join(AccessLevel, AccessLevel.id == FileAccessLevel.access_level_id)
+            .join(GroupAccessLevel, GroupAccessLevel.access_level_id == AccessLevel.id)
+            .join(Group, Group.id == GroupAccessLevel.group_id)
+            .join(UserGroup, UserGroup.group_id == Group.id)
+            .where(UserGroup.user_id == user_id)
+        )
+        result = await db.execute(stmt)
+        group_files = result.scalars().all()
+
+        if not user_uuid:
+            return group_files
+
+        # Files do chính user tạo (owner)
+        owner_q = select(File).where(File.uploaded_by_user_id  == user_uuid)
+        owner_files = (await db.execute(owner_q)).scalars().all()
+
+        # Merge và loại duplicate
+        existing_ids = {f.id for f in group_files}
+        for of in owner_files:
+            if of.id not in existing_ids:
+                group_files.append(of)
+
+        return group_files
+
+    async def get_accessible_filesV2(
+        self,
+        db: AsyncSession,
+        user_id: str,
+        is_admin: bool,
+        page: int = 1,
+        page_size: int = 4,
+    ):
+        if is_admin:
+            base_query = select(File)
+            count_query = select(func.count()).select_from(File)
+        else:
+            group_stmt = (
+                select(File.id)
+                .join(FileAccessLevel, FileAccessLevel.file_id == File.id)
+                .join(AccessLevel, AccessLevel.id == FileAccessLevel.access_level_id)
+                .join(GroupAccessLevel, GroupAccessLevel.access_level_id == AccessLevel.id)
+                .join(Group, Group.id == GroupAccessLevel.group_id)
+                .join(UserGroup, UserGroup.group_id == Group.id)
+                .where(UserGroup.user_id == user_id)
+            )
+            owner_stmt = select(File.id).where(File.uploaded_by_user_id == user_id)
+            file_ids_union = union(group_stmt, owner_stmt).subquery()
+
+            base_query = select(File).where(File.id.in_(select(file_ids_union.c.id)))
+            count_query = select(func.count()).select_from(file_ids_union)
+
+        # tổng số record
+        total = await db.scalar(count_query)
+
+        # query phân trang
+        stmt = (
+            base_query
+            .order_by(File.upload_timestamp.desc())
+            .limit(page_size)
+            .offset((page - 1) * page_size)
+        )
+        result = await db.execute(stmt)
+        rows = result.scalars().all()
+
+        return {
+            "page": page,
+            "page_size": page_size,
+            "total": total or 0,
+            "items": rows,
+        }
+
+
+    
+    async def refresh_access_files(self, db: AsyncSession, user_id: str, is_admin: bool):
+        """
+        Cập nhật quyền truy cập file cho user.
+        Không trả về gì, chỉ thực hiện update thông tin quyền.
+        """
+        if is_admin:
+            # Admin: lấy tất cả file
+            result = await db.execute(select(File))
+            files = result.scalars().all()
+        else:
+            stmt = (
+                select(File).distinct(File.id)
+                .join(FileAccessLevel, FileAccessLevel.file_id == File.id)
+                .join(AccessLevel, AccessLevel.id == FileAccessLevel.access_level_id)
+                .join(GroupAccessLevel, GroupAccessLevel.access_level_id == AccessLevel.id)
+                .join(Group, Group.id == GroupAccessLevel.group_id)
+                .join(UserGroup, UserGroup.group_id == Group.id)
+                .where(UserGroup.user_id == user_id)
+            )
+            result = await db.execute(stmt)
+            files = result.scalars().all()
+
+        # Gọi UserAccessLevelService để cập nhật quyền
+        user_access_service = UserAccessLevelService()
+        await user_access_service.refresh_user_access_files(db, user_id=user_id, is_admin=is_admin, files=files)
+
+
+
+    async def search_files(
+        self,
+        db: AsyncSession,
+        user_id: str,
+        is_admin: bool,
+        name_query: Optional[str] = None,
+        file_extension: Optional[str] = None,
+        upload_from: Optional[datetime] = None,
+        upload_to: Optional[datetime] = None,
+        modified_from: Optional[datetime] = None,
+        modified_to: Optional[datetime] = None,
+        uploader_only: bool = False,
+        accessible_only: bool = True,
+        content_query: Optional[str] = None,
+        page: int = 1,
+        page_size: int = 20
+    ):
+        # --- Xử lý upload_to để lấy hết ngày nếu chỉ chọn ngày ---
+        if upload_to and upload_to.hour == 0 and upload_to.minute == 0 and upload_to.second == 0 and upload_to.microsecond == 0:
+            upload_to = upload_to + timedelta(days=1)
+            upload_to_operator = "<"
+        else:
+            upload_to_operator = "<="
+
+        # --- Xử lý modified_to tương tự ---
+        if modified_to and modified_to.hour == 0 and modified_to.minute == 0 and modified_to.second == 0 and modified_to.microsecond == 0:
+            modified_to = modified_to + timedelta(days=1)
+            modified_to_operator = "<"
+        else:
+            modified_to_operator = "<="
+
+        # --- Base query ---
+        base_query = select(File)
+        filters = []
+
+        # --- Tên file ---
+        if name_query:
+            filters.append(File.original_file_name.ilike(f"%{name_query}%"))
+
+        # --- File extension ---
+        if file_extension:
+            filters.append(File.file_extension == file_extension)
+
+        # --- Upload timestamp ---
+        if upload_from:
+            filters.append(File.upload_timestamp >= upload_from)
+        if upload_to:
+            if upload_to_operator == "<":
+                filters.append(File.upload_timestamp < upload_to)
+            else:
+                filters.append(File.upload_timestamp <= upload_to)
+
+        # --- Modified timestamp ---
+        if modified_from:
+            filters.append(File.last_modified_timestamp >= modified_from)
+        if modified_to:
+            if modified_to_operator == "<":
+                filters.append(File.last_modified_timestamp < modified_to)
+            else:
+                filters.append(File.last_modified_timestamp <= modified_to)
+
+        # --- Nội dung trong file ---
+        if content_query:
+            filters.append(File.extracted_text.ilike(f"%{content_query}%"))
+
+        # --- Quyền truy cập ---
+        if not is_admin:
+            accessible_resp = await self.get_accessible_filesV2(db, user_id, is_admin=False, page=1, page_size=100)
+            accessible_file_ids = {f.id for f in accessible_resp["items"]}
+            if uploader_only:
+                filters.append(File.uploaded_by_user_id == user_id)
+            elif accessible_only:
+                filters.append(File.id.in_(accessible_file_ids))
+
+        # --- Áp dụng filter ---
+        if filters:
+            base_query = base_query.where(and_(*filters))
+
+        # --- Phân trang ---
+        stmt = (
+            base_query
+            .order_by(File.upload_timestamp.desc())
+            .limit(page_size)
+            .offset((page - 1) * page_size)
+        )
+
+        result = await db.execute(stmt)
+        files = result.scalars().all()
+
+        # Tổng số record
+        count_query = select(func.count()).select_from(base_query.subquery())
+        total = await db.scalar(count_query)
+
+        return {
+            "page": page,
+            "page_size": page_size,
+            "total": total or 0,
+            "items": files
+        }

@@ -1,0 +1,215 @@
+/* Base styles */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Enhanced scrollbar styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f3f4f6;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #c7d2fe, #a5b4fc);
+    border-radius: 3px;
+}
+
+/* thêm note  */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #a5b4fc, #818cf8);
+}
+
+/* Modal styles */
+.modal-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideIn 0.3s ease-out;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Item actions */
+.item-actions {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 6px;
+    border: 1px solid rgba(209, 213, 219, 0.7);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateY(10px);
+    transition: all 0.2s ease-out;
+}
+
+.file-item:hover .item-actions,
+.folder-item:hover .item-actions {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Button styles */
+.btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    box-shadow: 0 4px 15px -5px rgba(79, 70, 229, 0.6);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
+}
+
+/* Card hover effects */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.dark .card-hover:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading spinner */
+.loading-spinner {
+    border: 3px solid rgba(79, 70, 229, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid #4f46e5;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Navigation */
+.nav-link {
+    position: relative;
+    overflow: hidden;
+}
+
+.dark .nav-link::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+/* Alert styling */
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 500;
+    z-index: 2000;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+.alert-error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+        max-width: 100%;
+    }
+}
+
+/* Upload Manager Styles */
+#upload-manager {
+    pointer-events: auto;
+}
+
+#upload-manager.opacity-0 {
+    pointer-events: none;
+}
+
+#upload-manager .pointer-events-none {
+    pointer-events: none;
+}

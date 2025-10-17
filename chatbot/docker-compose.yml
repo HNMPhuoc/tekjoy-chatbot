@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  myapp:
+    build: .
+    container_name: thien-chatbot-backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./app:/app/app
+      - ./core:/app/core
+      - ./handlers:/app/handlers
+      - ./responses:/app/responses
+
+  thien-ocr:
+    image: thien-ocr
+    container_name: thien-ocr-service
+    restart: always
+    ports:
+      - "9000:8080"
+  
+  db:
+    image: postgres:17
+    container_name: thien-postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: Tekjoy
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

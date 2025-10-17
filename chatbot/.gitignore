@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / pre-compiled files
+__pycache__/
+
+# Packages
+*.egg
+*.egg-info
+dist/
+build/
+eggs/
+
+# Virtual environment
+.venv/
+venv/
+env/
+.env/
+/.env
+.env
+# ChromaDB data
+chroma_data/
+
+# Uploads directory
+uploads/
+
+# Pytest cache
+.cache/
+# db
+db/
+#keys
+keys/
+# database
+.postgres_data/
+postgres_data/
+postgres-data/

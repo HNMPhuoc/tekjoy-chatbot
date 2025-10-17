@@ -1,0 +1,295 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f4f4f4;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* Style cho tin nhắn */
+.message {
+    background-color: #f4f4f4;
+    color: #24281c;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+/* Style cho tin nhắn của người dùng */
+.message.user {
+    background-color: #e5e7eb;
+    margin-left: auto;
+}
+
+/* Style cho tin nhắn của bot */
+.message.bot {
+    background-color: #f4f4f4;
+    margin-right: auto;
+}
+
+/* Style cho new section */
+.new-section {
+    border: 1px solid #ffffff;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #ffffff;
+}
+
+.toggle-checkbox {
+    appearance: none;
+    width: 40px;
+    height: 20px;
+    background-color: #e5e7eb;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.toggle-checkbox:checked {
+    background-color: #4f46e5;
+}
+
+.toggle-checkbox::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+}
+
+.toggle-checkbox:checked::before {
+    transform: translateX(20px);
+}
+
+.suggestion-item-selected {
+    background-color: #4f46e5 !important;
+}
+
+.attachments-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.attachment-item {
+    display: flex;
+    align-items: center;
+    background-color: #f4f4f4;
+    border: 1px solid #e5e7eb;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    color: #24281c;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    max-width: 12rem;
+}
+
+.attachment-item:hover {
+    background-color: #e5e7eb;
+}
+
+.session-item .session-actions {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.session-item:hover .session-actions {
+    opacity: 1;
+}
+
+.active-file-item {
+    display: flex;
+    align-items: center;
+    background-color: #e5e7eb;
+    padding: 4px 8px 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    color: #24281c;
+    transition: background-color 0.2s;
+}
+
+.active-file-item button.remove-file-btn {
+    margin-left: 6px;
+    color: #9ca3af;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    opacity: 0.6;
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.active-file-item:hover button.remove-file-btn {
+    opacity: 1;
+}
+
+.active-file-item button.remove-file-btn:hover {
+    color: #24281c;
+}
+
+/* Bảng trong chat markdown */
+.prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    background: #f4f4f4;
+    border: 1px solid #e5e7eb;
+}
+
+.prose th,
+.prose td {
+    border: 1px solid #444;
+    padding: 0.5em 1em;
+    text-align: left;
+}
+
+.prose th {
+    background: #e5e7eb;
+    color: #24281c;
+}
+
+.prose td {
+    background: #f4f4f4;
+    border: 1px solid #e5e7eb;
+}
+
+.prose .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1em 0;
+}
+
+.prose table {
+    min-width: 600px;
+    /* hoặc giá trị phù hợp */
+    max-width: 100%;
+}
+
+/* // thêm note */
+/* // thinlking  */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1rem;
+    /* Chiều cao tương đương với dòng chữ */
+}
+
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    margin: 0 2px;
+    background-color: #6b7280;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+/* Style cho tin nhắn */
+.message {
+    background-color: #f4f4f4;
+    color: #24281c;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+/* Style cho tin nhắn của người dùng */
+.message.user {
+    background-color: #e5e7eb;
+    margin-left: auto;
+}
+
+/* Style cho tin nhắn của bot */
+.message.bot {
+    background-color: #f4f4f4;
+    margin-right: auto;
+}
+
+/* Style cho new section */
+.new-section {
+    border: 1px solid #ffffff;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #ffffff;
+}
+
+/* Style cho tin nhắn */
+.message {
+    background-color: #f4f4f4;
+    color: #24281c;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+/* Style cho tin nhắn của người dùng */
+.message.user {
+    background-color: #e5e7eb;
+    margin-left: auto;
+}
+
+/* Style cho tin nhắn của bot */
+.message.bot {
+    background-color: #f4f4f4;
+    margin-right: auto;
+}
+
+/* Style cho new section */
+.new-section {
+    border: 1px solid #ffffff;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #ffffff;
+}
+
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1.0);
+    }
+}
