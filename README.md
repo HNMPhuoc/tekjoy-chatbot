@@ -39,12 +39,25 @@ Sử dụng lệnh uvicorn 1:
 5. Tạo file env
 
    ```bash
-    DATABASE_URL="postgresql://postgres:user1@localhost:5432/db_pione"
-    # Database URL format: postgresql://<user>:<password>@<host>:<port>/<dbname>
-    # DATABASE_URL="postgresql://postgres:your_strong_password@localhost:5432/your_db_name"
+    # ==============================================================================
+    # File: .env.example
+    #
+    # Hướng dẫn:
+    # 1. Tạo một bản sao và đổi tên thành `.env`.
+    # 2. Thay thế các giá trị bên dưới bằng thông tin thực tế của bạn.
+    # ==============================================================================
     
-    # JWT Settings
-    SECRET_KEY="your-secret-key"
-    ALGORITHM="HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES=60
+    DATABASE_URL="postgresql+asyncpg://postgres:123456@localhost:5432/TekjoyV4"
+    OPENAI_API_KEY="your_open_api_key"
+    PADDLE_OCR_API_URL = http://thien-ocr:8080/ocr-fullV2
+    
+    PG_HOST=db
+    PG_PORT=5432
+    PG_DATABASE=Tekjoy
+    PG_USER=admin
+    PG_PASSWORD=admin123
+    
+    
+    SECRET_KEY=your_secret_key
+    ALGORITHM = "HS256"
     ```
